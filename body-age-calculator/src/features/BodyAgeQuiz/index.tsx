@@ -10,7 +10,7 @@ import styles from './BodyAgeQuiz.module.css'
 export function BodyAgeQuiz() {
   const { state, start, setAge, selectOption, nextQuestion, revealComplete, reset } = useQuiz()
   const streakCount = state.answers.filter(s => s <= -1).length
-  const { play, startBgMusic, toggleMusic, musicOn } = useSound()
+  const { play, startBgMusic } = useSound()
 
   const handleStart = () => {
     startBgMusic()
@@ -20,14 +20,10 @@ export function BodyAgeQuiz() {
   return (
     <div className={styles.root}>
       {state.screen === 'welcome' && (
-        <WelcomeScreen
-          onStart={handleStart}
-          onToggleMusic={toggleMusic}
-          musicOn={musicOn}
-        />
+        <WelcomeScreen onStart={handleStart} />
       )}
       {state.screen === 'age_input' && (
-        <AgeInput onSubmit={setAge} />
+        <AgeInput onSubmit={setAge} onClose={reset} />
       )}
       {state.screen === 'quiz' && (
         <QuizScreen
@@ -44,8 +40,6 @@ export function BodyAgeQuiz() {
         <RevealScreen
           bodyAge={state.bodyAge}
           onComplete={() => revealComplete(state.bodyAge)}
-          onPlayCountdown={() => play('countdown')}
-          onPlayCelebrate={() => play('celebrate')}
         />
       )}
       {state.screen === 'result' && (
