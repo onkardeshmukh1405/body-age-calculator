@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 3 Themes – Women 30+</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #fdf4f8;
+    padding: 28px 16px 60px;
+  }
+
+  h2 { text-align:center; font-size:22px; font-weight:900; color:#1e293b; margin-bottom:4px; }
+  .sub { text-align:center; font-size:13px; color:#64748b; font-weight:700; margin-bottom:6px; }
+  .note { text-align:center; font-size:11px; color:#94a3b8; font-weight:700; margin-bottom:32px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .card {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 0 #e2c9d8, 0 12px 32px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s;
+    border: 4px solid transparent;
+    position: relative;
+  }
+  .card:hover { transform: translateY(-6px); }
+  .card.selected { border-color: #1e293b; transform: translateY(-6px); box-shadow: 0 12px 0 #1e293b, 0 16px 40px rgba(0,0,0,0.18); }
+
+  .picked-badge {
+    display:none; position:absolute; top:14px; right:14px; z-index:20;
+    background:#1e293b; color:white; font-size:12px; font-weight:900;
+    padding:5px 14px; border-radius:99px;
+  }
+  .card.selected .picked-badge { display:block; }
+
+  /* Rank ribbon */
+  .rank {
+    position: absolute; top:14px; left:14px; z-index:20;
+    width:36px; height:36px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; font-weight:900; color:white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  }
+  .rank-1 { background: linear-gradient(135deg,#f59e0b,#fbbf24); }
+  .rank-2 { background: linear-gradient(135deg,#94a3b8,#cbd5e1); color:#1e293b; }
+  .rank-3 { background: linear-gradient(135deg,#c2694f,#d4956a); }
+
+  /* Preview */
+  .preview {
+    padding: 60px 18px 18px;
+    position: relative; overflow: hidden; min-height: 320px;
+  }
+  .preview::before {
+    content:''; position:absolute; inset:0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.13) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    pointer-events:none;
+  }
+
+  /* topbar */
+  .tb { display:flex; align-items:center; gap:8px; margin-bottom:14px; position:relative;z-index:1; }
+  .tb-x { width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.22);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,0.85); }
+  .tb-bar { flex:1;height:10px;background:rgba(255,255,255,0.2);border-radius:99px;overflow:hidden; }
+  .tb-fill { height:100%;width:40%;border-radius:99px; }
+  .tb-streak { font-size:11px;font-weight:900;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,0.25);color:white; }
+
+  /* mascot */
+  .mascot-row { display:flex; align-items:flex-end; gap:10px; margin-bottom:12px; position:relative;z-index:1; }
+  .mascot { font-size:52px; filter:drop-shadow(0 4px 10px rgba(0,0,0,0.2)); animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .bubble { background:rgba(255,255,255,0.95); border-radius:14px; padding:6px 12px; font-size:11px; font-weight:800; color:#374151; box-shadow:0 2px 10px rgba(0,0,0,0.1); line-height:1.4; }
+
+  /* question card */
+  .qcard { background:white; border-radius:18px; padding:14px; margin-bottom:10px; box-shadow:0 5px 0 rgba(0,0,0,0.1); position:relative;z-index:1; }
+  .qlabel { font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#9ca3af; margin-bottom:5px; }
+  .qtext { font-size:14px; font-weight:900; color:#1e293b; margin-bottom:10px; }
+  .opts { display:flex; flex-direction:column; gap:6px; }
+  .opt {
+    display:flex; align-items:center; gap:10px;
+    border:2.5px solid #e5e7eb; border-radius:12px;
+    padding:9px 12px; font-size:12px; font-weight:800; color:#374151;
+    box-shadow:0 3px 0 #e5e7eb; transition:all 0.15s;
+  }
+  .opt.sel { color:white; border-color:transparent; }
+
+  /* button */
+  .btn {
+    width:100%; padding:13px; border-radius:14px; border:none;
+    font-family:'Nunito',sans-serif; font-size:14px; font-weight:900;
+    text-transform:uppercase; letter-spacing:1px; color:white;
+    cursor:pointer; position:relative;z-index:1; margin-top:2px;
+  }
+
+  /* label */
+  .label-area { padding:20px 20px 18px; background:white; }
+  .theme-name { font-size:20px; font-weight:900; color:#1e293b; margin-bottom:4px; }
+  .why-title { font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#9ca3af; margin-bottom:6px; }
+  .why-list { display:flex; flex-direction:column; gap:4px; margin-bottom:12px; }
+  .why-item { font-size:13px; font-weight:700; color:#374151; display:flex; align-items:flex-start; gap:6px; }
+  .swatches { display:flex; gap:6px; }
+  .swatch { width:22px;height:22px;border-radius:50%;border:2px solid rgba(0,0,0,0.07); }
+  .tag {
+    display:inline-block; margin-top:10px;
+    font-size:11px; font-weight:900; padding:3px 12px;
+    border-radius:99px; text-transform:uppercase; letter-spacing:0.5px;
+  }
+
+  /* ── Rose Gold ── */
+  .rose .preview { background: linear-gradient(150deg, #6b1a2e, #c45c78, #d4956a, #f0c987); }
+  .rose .tb-fill { background: linear-gradient(90deg, #f0c987, #e8a87c); }
+  .rose .opt.sel { background: linear-gradient(90deg, #c45c78, #d4956a); box-shadow:0 3px 0 #6b1a2e; }
+  .rose .btn { background: linear-gradient(90deg, #c45c78, #d4956a); box-shadow:0 5px 0 #6b1a2e; }
+
+  /* ── Lavender Dusk ── */
+  .lav .preview { background: linear-gradient(150deg, #1e0a3c, #6d28d9, #a78bfa, #f3e8ff); }
+  .lav .tb-fill { background: linear-gradient(90deg, #c4b5fd, #fbcfe8); }
+  .lav .opt.sel { background: linear-gradient(90deg, #7c3aed, #a78bfa); box-shadow:0 3px 0 #1e0a3c; }
+  .lav .btn { background: linear-gradient(90deg, #7c3aed, #a78bfa); box-shadow:0 5px 0 #1e0a3c; }
+
+  /* ── Teal & Champagne ── */
+  .teal .preview { background: linear-gradient(150deg, #042f2e, #0f766e, #14b8a6, #d4a96a); }
+  .teal .tb-fill { background: linear-gradient(90deg, #d4a96a, #fde68a); }
+  .teal .opt.sel { background: linear-gradient(90deg, #0f766e, #14b8a6); box-shadow:0 3px 0 #042f2e; }
+  .teal .btn { background: linear-gradient(90deg, #0f766e, #14b8a6); box-shadow:0 5px 0 #042f2e; }
+
+  /* result sneak peek */
+  .result-peek {
+    margin-top: 8px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 10px 14px;
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; gap: 10px;
+    position:relative; z-index:1;
+  }
+  .result-num { font-size:32px; font-weight:900; color:white; line-height:1; }
+  .result-info { color: rgba(255,255,255,0.9); font-size:11px; font-weight:800; line-height:1.5; }
+</style>
+</head>
+<body>
+
+<h2>Top 3 for Women 30+</h2>
+<p class="sub">Picked based on your audience — sophisticated, warm, and trustworthy</p>
+<p class="note">Click a card to vote for your favourite</p>
+
+<div class="grid">
+
+  <!-- 1. Rose Gold -->
+  <div class="card rose" onclick="pick(this)">
+    <div class="rank rank-1">1</div>
+    <div class="picked-badge">✓ I choose this</div>
+    <div class="preview">
+      <div class="tb">
+        <div class="tb-x">✕</div>
+        <div class="tb-bar"><div class="tb-fill"></div></div>
+        <div class="tb-streak">🔥 5</div>
+      </div>
+      <div class="mascot-row">
+        <div class="mascot">🦢</div>
+        <div class="bubble">You're doing amazing!<br>Let's find your body age ✨</div>
+      </div>
+      <div class="qcard">
+        <div class="qlabel">Question 4 of 10</div>
+        <div class="qtext">How's your stress level lately? 😤</div>
+        <div class="opts">
+          <div class="opt">😩 Always stressed out</div>
+          <div class="opt sel">😌 Manageable most days</div>
+          <div class="opt">🧘 Rarely stressed</div>
+          <div class="opt">✨ Life is good!</div>
+        </div>
+      </div>
+      <div class="btn" style="display:flex;align-items:center;justify-content:center;border-radius:14px;background:linear-gradient(90deg,#c45c78,#d4956a);box-shadow:0 5px 0 #6b1a2e;font-family:Nunito,sans-serif;font-size:14px;font-weight:900;letter-spacing:1px;color:white;padding:13px;">Next →</div>
+    </div>
+    <div class="label-area">
+      <div class="theme-name">🌹 Rose Gold</div>
+      <div class="why-title">Why women 30+ love it</div>
+      <div class="why-list">
+        <div class="why-item"><span>💅</span> Feels premium — like a skincare or wellness app</div>
+        <div class="why-item"><span>🌡️</span> Warm tones feel personal and caring, not clinical</div>
+        <div class="why-item"><span>📸</span> Results look stunning on WhatsApp & Instagram shares</div>
+        <div class="why-item"><span>🦢</span> Swan mascot = grace, elegance, self-improvement</div>
+      </div>
+      <div class="swatches">
+        <div class="swatch" style="background:#6b1a2e"></div>
+        <div class="swatch" style="background:#c45c78"></div>
+        <div class="swatch" style="background:#d4956a"></div>
+        <div class="swatch" style="background:#f0c987"></div>
+      </div>
+      <span class="tag" style="background:#fff1f2;color:#c45c78;border:1.5px solid #fecdd3">⭐ My top pick</span>
+    </div>
+  </div>
+
+  <!-- 2. Lavender Dusk -->
+  <div class="card lav" onclick="pick(this)">
+    <div class="rank rank-2">2</div>
+    <div class="picked-badge">✓ I choose this</div>
+    <div class="preview">
+      <div class="tb">
+        <div class="tb-x">✕</div>
+        <div class="tb-bar"><div class="tb-fill"></div></div>
+        <div class="tb-streak">🔥 5</div>
+      </div>
+      <div class="mascot-row">
+        <div class="mascot">🦚</div>
+        <div class="bubble">Time to glow! 🌙<br>Let's discover your body age</div>
+      </div>
+      <div class="qcard">
+        <div class="qlabel">Question 4 of 10</div>
+        <div class="qtext">How's your stress level lately? 😤</div>
+        <div class="opts">
+          <div class="opt">😩 Always stressed out</div>
+          <div class="opt sel">😌 Manageable most days</div>
+          <div class="opt">🧘 Rarely stressed</div>
+          <div class="opt">✨ Life is good!</div>
+        </div>
+      </div>
+      <div class="btn" style="display:flex;align-items:center;justify-content:center;border-radius:14px;background:linear-gradient(90deg,#7c3aed,#a78bfa);box-shadow:0 5px 0 #1e0a3c;font-family:Nunito,sans-serif;font-size:14px;font-weight:900;letter-spacing:1px;color:white;padding:13px;">Next →</div>
+    </div>
+    <div class="label-area">
+      <div class="theme-name">💜 Lavender Dusk</div>
+      <div class="why-title">Why women 30+ love it</div>
+      <div class="why-list">
+        <div class="why-item"><span>🧖</span> Self-care & spa energy — feel good while playing</div>
+        <div class="why-item"><span>🌙</span> Calming palette reduces anxiety about the result</div>
+        <div class="why-item"><span>👑</span> Purple = luxury, premium quality, self-worth</div>
+        <div class="why-item"><span>🦚</span> Peacock mascot = beauty, confidence, transformation</div>
+      </div>
+      <div class="swatches">
+        <div class="swatch" style="background:#1e0a3c"></div>
+        <div class="swatch" style="background:#6d28d9"></div>
+        <div class="swatch" style="background:#a78bfa"></div>
+        <div class="swatch" style="background:#f3e8ff"></div>
+      </div>
+      <span class="tag" style="background:#f5f3ff;color:#6d28d9;border:1.5px solid #ddd6fe">Most calming</span>
+    </div>
+  </div>
+
+  <!-- 3. Teal & Champagne -->
+  <div class="card teal" onclick="pick(this)">
+    <div class="rank rank-3">3</div>
+    <div class="picked-badge">✓ I choose this</div>
+    <div class="preview">
+      <div class="tb">
+        <div class="tb-x">✕</div>
+        <div class="tb-bar"><div class="tb-fill"></div></div>
+        <div class="tb-streak">🔥 5</div>
+      </div>
+      <div class="mascot-row">
+        <div class="mascot">🐢</div>
+        <div class="bubble">Slow & steady wins! 🏆<br>What's your body age?</div>
+      </div>
+      <div class="qcard">
+        <div class="qlabel">Question 4 of 10</div>
+        <div class="qtext">How's your stress level lately? 😤</div>
+        <div class="opts">
+          <div class="opt">😩 Always stressed out</div>
+          <div class="opt sel">😌 Manageable most days</div>
+          <div class="opt">🧘 Rarely stressed</div>
+          <div class="opt">✨ Life is good!</div>
+        </div>
+      </div>
+      <div class="btn" style="display:flex;align-items:center;justify-content:center;border-radius:14px;background:linear-gradient(90deg,#0f766e,#14b8a6);box-shadow:0 5px 0 #042f2e;font-family:Nunito,sans-serif;font-size:14px;font-weight:900;letter-spacing:1px;color:white;padding:13px;">Next →</div>
+    </div>
+    <div class="label-area">
+      <div class="theme-name">🌊 Teal & Champagne</div>
+      <div class="why-title">Why women 30+ love it</div>
+      <div class="why-list">
+        <div class="why-item"><span>💆</span> Feels like a wellness retreat or yoga brand</div>
+        <div class="why-item"><span>🥂</span> Champagne gold accent = celebration & achievement</div>
+        <div class="why-item"><span>🌿</span> Teal = health, freshness, balance — trusted by women</div>
+        <div class="why-item"><span>🐢</span> Turtle mascot = patience, longevity, wisdom</div>
+      </div>
+      <div class="swatches">
+        <div class="swatch" style="background:#042f2e"></div>
+        <div class="swatch" style="background:#0f766e"></div>
+        <div class="swatch" style="background:#14b8a6"></div>
+        <div class="swatch" style="background:#d4a96a"></div>
+      </div>
+      <span class="tag" style="background:#f0fdfa;color:#0f766e;border:1.5px solid #99f6e4">Most premium</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function pick(card) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+}
+</script>
+</body>
+</html>

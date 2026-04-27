@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mature Theme Options – 30+ Users</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #f8f7f4;
+    padding: 28px 16px 60px;
+  }
+
+  h2 { text-align:center; font-size:22px; font-weight:900; color:#1e293b; margin-bottom:4px; }
+  .sub { text-align:center; font-size:13px; color:#64748b; font-weight:700; margin-bottom:8px; }
+  .note { text-align:center; font-size:11px; color:#94a3b8; font-weight:700; margin-bottom:28px; background:#fff; display:inline-block; padding:4px 14px; border-radius:99px; border:1.5px solid #e2e8f0; width:100%; max-width:500px; margin-left:auto; margin-right:auto; display:block; }
+
+  .themes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .theme-card {
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 6px 0 #cbd5e1, 0 8px 24px rgba(0,0,0,0.09);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s;
+    border: 3px solid transparent;
+    position: relative;
+  }
+  .theme-card:hover { transform: translateY(-5px); box-shadow: 0 10px 0 #94a3b8, 0 14px 30px rgba(0,0,0,0.13); }
+  .theme-card.selected { border-color: #1e293b; transform: translateY(-5px); }
+  .selected-badge {
+    display:none; position:absolute; top:12px; right:12px;
+    background:#1e293b; color:white; font-size:11px; font-weight:900;
+    padding:4px 12px; border-radius:99px; z-index:10;
+  }
+  .theme-card.selected .selected-badge { display:block; }
+
+  .theme-preview {
+    padding: 18px 16px 14px;
+    position: relative; overflow: hidden;
+  }
+  .theme-preview::before {
+    content:''; position:absolute; inset:0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events:none;
+  }
+
+  /* top bar */
+  .tb { display:flex; align-items:center; gap:8px; margin-bottom:12px; position:relative;z-index:1; }
+  .tb-x { width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.8); }
+  .tb-bar { flex:1;height:9px;background:rgba(255,255,255,0.18);border-radius:99px;overflow:hidden; }
+  .tb-fill { height:100%;width:40%;border-radius:99px; }
+  .tb-streak { font-size:11px;font-weight:900;padding:3px 8px;border-radius:99px;background:rgba(255,255,255,0.22);color:white; }
+
+  /* mascot */
+  .mascot-row { display:flex;align-items:flex-end;gap:10px;margin-bottom:10px;position:relative;z-index:1; }
+  .mascot-mini { font-size:44px; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2)); animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  .bubble { background:rgba(255,255,255,0.95); border-radius:12px; padding:5px 10px; font-size:11px; font-weight:800; color:#374151; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+
+  /* mini card */
+  .mini-card { background:white; border-radius:14px; padding:12px; margin-bottom:9px; box-shadow:0 4px 0 rgba(0,0,0,0.1); position:relative;z-index:1; }
+  .mini-q { font-size:12px; font-weight:900; color:#1e293b; margin-bottom:9px; }
+  .mini-opts { display:flex; flex-direction:column; gap:5px; }
+  .mini-opt {
+    display:flex; align-items:center; gap:8px;
+    border:2.5px solid #e5e7eb; border-radius:10px;
+    padding:7px 10px; font-size:11px; font-weight:800; color:#374151;
+    box-shadow:0 3px 0 #e5e7eb;
+  }
+  .mini-opt.sel { color:white; }
+  .mini-btn {
+    width:100%; padding:11px; border-radius:12px; border:none;
+    font-family:'Nunito',sans-serif; font-size:12px; font-weight:900;
+    text-transform:uppercase; letter-spacing:1px; color:white;
+    cursor:pointer; box-shadow:0 4px 0 rgba(0,0,0,0.18);
+    position:relative;z-index:1;
+  }
+
+  .theme-label { padding:14px 16px; background:white; }
+  .theme-name { font-size:16px; font-weight:900; color:#1e293b; margin-bottom:2px; }
+  .theme-desc { font-size:12px; color:#64748b; font-weight:700; line-height:1.4; }
+  .theme-swatches { display:flex; gap:5px; margin-top:8px; }
+  .swatch { width:18px;height:18px;border-radius:50%;border:2px solid rgba(0,0,0,0.07); }
+  .theme-tag {
+    display:inline-block; margin-top:7px;
+    font-size:10px; font-weight:900; padding:2px 8px;
+    border-radius:99px; text-transform:uppercase; letter-spacing:0.5px;
+  }
+
+  /* ── T1: Rose Gold ── */
+  .t1 .theme-preview { background: linear-gradient(135deg, #7f1d1d, #be5a5a, #d4956a, #f0c987); }
+  .t1 .tb-fill { background: linear-gradient(90deg, #f0c987, #e8a87c); }
+  .t1 .mini-opt.sel { background: linear-gradient(90deg, #c2694f, #d4956a); border-color:#c2694f; box-shadow:0 3px 0 #7f1d1d; }
+  .t1 .mini-btn { background: linear-gradient(90deg, #c2694f, #d4956a); box-shadow:0 4px 0 #7f1d1d; }
+
+  /* ── T2: Sage & Gold ── */
+  .t2 .theme-preview { background: linear-gradient(135deg, #1c3a2a, #4a7c59, #8fae7e, #c9b97a); }
+  .t2 .tb-fill { background: linear-gradient(90deg, #c9b97a, #e8d5a0); }
+  .t2 .mini-opt.sel { background: linear-gradient(90deg, #4a7c59, #6aad7a); border-color:#4a7c59; box-shadow:0 3px 0 #1c3a2a; }
+  .t2 .mini-btn { background: linear-gradient(90deg, #4a7c59, #6aad7a); box-shadow:0 4px 0 #1c3a2a; }
+
+  /* ── T3: Indigo & Amber ── */
+  .t3 .theme-preview { background: linear-gradient(135deg, #1e1b4b, #3730a3, #6366f1, #fbbf24); }
+  .t3 .tb-fill { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+  .t3 .mini-opt.sel { background: linear-gradient(90deg, #4338ca, #6366f1); border-color:#4338ca; box-shadow:0 3px 0 #1e1b4b; }
+  .t3 .mini-btn { background: linear-gradient(90deg, #4338ca, #6366f1); box-shadow:0 4px 0 #1e1b4b; }
+
+  /* ── T4: Slate & Coral ── */
+  .t4 .theme-preview { background: linear-gradient(135deg, #1e293b, #334155, #64748b, #fb7185); }
+  .t4 .tb-fill { background: linear-gradient(90deg, #fb7185, #fda4af); }
+  .t4 .mini-opt.sel { background: linear-gradient(90deg, #e11d48, #fb7185); border-color:#e11d48; box-shadow:0 3px 0 #1e293b; }
+  .t4 .mini-btn { background: linear-gradient(90deg, #e11d48, #fb7185); box-shadow:0 4px 0 #1e293b; }
+
+  /* ── T5: Terracotta ── */
+  .t5 .theme-preview { background: linear-gradient(135deg, #431407, #9a3412, #ea580c, #fdba74); }
+  .t5 .tb-fill { background: linear-gradient(90deg, #fdba74, #fcd34d); }
+  .t5 .mini-opt.sel { background: linear-gradient(90deg, #c2410c, #ea580c); border-color:#c2410c; box-shadow:0 3px 0 #431407; }
+  .t5 .mini-btn { background: linear-gradient(90deg, #c2410c, #ea580c); box-shadow:0 4px 0 #431407; }
+
+  /* ── T6: Lavender Dusk ── */
+  .t6 .theme-preview { background: linear-gradient(135deg, #2e1065, #6d28d9, #a78bfa, #e0c3fc); }
+  .t6 .tb-fill { background: linear-gradient(90deg, #c4b5fd, #fbcfe8); }
+  .t6 .mini-opt.sel { background: linear-gradient(90deg, #7c3aed, #a78bfa); border-color:#7c3aed; box-shadow:0 3px 0 #2e1065; }
+  .t6 .mini-btn { background: linear-gradient(90deg, #7c3aed, #a78bfa); box-shadow:0 4px 0 #2e1065; }
+
+  /* ── T7: Teal & Champagne ── */
+  .t7 .theme-preview { background: linear-gradient(135deg, #042f2e, #0f766e, #14b8a6, #d4a96a); }
+  .t7 .tb-fill { background: linear-gradient(90deg, #d4a96a, #fde68a); }
+  .t7 .mini-opt.sel { background: linear-gradient(90deg, #0f766e, #14b8a6); border-color:#0f766e; box-shadow:0 3px 0 #042f2e; }
+  .t7 .mini-btn { background: linear-gradient(90deg, #0f766e, #14b8a6); box-shadow:0 4px 0 #042f2e; }
+
+  /* ── T8: Mocha ── */
+  .t8 .theme-preview { background: linear-gradient(135deg, #1c0a00, #6b3a2a, #a0633a, #c8956c); }
+  .t8 .tb-fill { background: linear-gradient(90deg, #c8956c, #e8c49a); }
+  .t8 .mini-opt.sel { background: linear-gradient(90deg, #92400e, #b45309); border-color:#92400e; box-shadow:0 3px 0 #1c0a00; }
+  .t8 .mini-btn { background: linear-gradient(90deg, #92400e, #b45309); box-shadow:0 4px 0 #1c0a00; }
+</style>
+</head>
+<body>
+
+<h2>Themes for 30+ Users</h2>
+<p class="sub">Sophisticated, warm, and premium — still fun, never childish</p>
+<p class="note">Click any card to select it</p>
+
+<div class="themes-grid">
+
+  <!-- T1: Rose Gold -->
+  <div class="theme-card t1" onclick="sel(this)">
+    <div class="selected-badge">✓ Picked</div>
+    <div class="theme-preview">
+      <div class="tb"><div class="tb-x">✕</div><div class="tb-bar"><div class="tb-fill"></div></div><div class="tb-streak">🔥 5</div></div>
+      <div class="mascot-row"><div class="mascot-mini">🦢</div><div class="bubble">Elegant start! ✨</div></div>
+      <div class="mini-card">
+        <div class="mini-q">How well do you sleep? 😴</div>
+        <div class="mini-opts">
+          <div class="mini-opt">😩 Under 5 hrs</div>
+          <div class="mini-opt sel">😊 7–8 hrs, solid</div>
+          <div class="mini-opt">🥱 It varies</div>
+        </div>
+      </div>
+      <button class="mini-btn">Continue →</button>
+    </div>
+    <div class="theme-label">
+      <div class="theme-name">Rose Gold</div>
+      <div class="theme-desc">Deep red → dusty rose → warm gold. Elegant and premium. Popular with women 30–45.</div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#7f1d1d"></div>
+        <div class="swatch" style="background:#be5a5a"></div>
+        <div class="swatch" style="background:#d4956a"></div>
+        <div class="swatch" style="background:#f0c987"></div>
+      </div>
+      <span class="theme-tag" style="background:#fff1f2;color:#be5a5a;border:1.5px solid #fecdd3">Most elegant</span>
+    </div>
+  </div>
+
+  <!-- T2: Sage & Gold -->
+  <div class="theme-card t2" onclick="sel(this)">
+    <div class="selected-badge">✓ Picked</div>
+    <div class="theme-preview">
+      <div class="tb"><div class="tb-x">✕</div><div class="tb-bar"><div class="tb-fill"></div></div><div class="tb-streak">🔥 5</div></div>
+      <div class="mascot-row"><div class="mascot-mini">🦌</div><div class="bubble">Natural & calm 🍃</div></div>
+      <div class="mini-card">
+        <div class="mini-q">How well do you sleep? 😴</div>
+        <div class="mini-opts">
+          <div class="mini-opt">😩 Under 5 hrs</div>
+          <div class="mini-opt sel">😊 7–8 hrs, solid</div>
+          <div class="mini-opt">🥱 It varies</div>
+        </div>
+      </div>
+      <button class="mini-btn">Continue →</button>
+    </div>
+    <div class="theme-label">
+      <div class="theme-name">Sage & Gold</div>
+      <div class="theme-desc">Forest green → sage → warm gold. Earthy wellness vibes — like a spa or premium health brand.</div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#1c3a2a"></div>
+        <div class="swatch" style="background:#4a7c59"></div>
+        <div class="swatch" style="background:#8fae7e"></div>
+        <div class="swatch" style="background:#c9b97a"></div>
+      </div>
+      <span class="theme-tag" style="background:#f0fdf4;color:#4a7c59;border:1.5px solid #bbf7d0">Most wellness</span>
+    </div>
+  </div>
+
+  <!-- T3: Indigo & Amber -->
+  <div class="theme-card t3" onclick="sel(this)">
+    <div class="selected-badge">✓ Picked</div>
+    <div class="theme-preview">
+      <div class="tb"><div class="tb-x">✕</div><div class="tb-bar"><div class="tb-fill"></div></div><div class="tb-streak">🔥 5</div></div>
+      <div class="mascot-row"><div class="mascot-mini">🦁</div><div class="bubble">Bold move! 👑</div></div>
+      <div class="mini-card">
+        <div class="mini-q">How well do you sleep? 😴</div>
+        <div class="mini-opts">
+          <div class="mini-opt">😩 Under 5 hrs</div>
+          <div class="mini-opt sel">😊 7–8 hrs, solid</div>
+          <div class="mini-opt">🥱 It varies</div>
+        </div>
+      </div>
+      <button class="mini-btn">Continue →</button>
+    </div>
+    <div class="theme-label">
+      <div class="theme-name">Indigo & Amber</div>
+      <div class="theme-desc">Deep navy → indigo → gold accent. Rich, trustworthy, powerful. Appeals to men and women 30–50.</div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#1e1b4b"></div>
+        <div class="swatch" style="background:#3730a3"></div>
+        <div class="swatch" style="background:#6366f1"></div>
+        <div class="swatch" style="background:#fbbf24"></div>
+      </div>
+      <span class="theme-tag" style="background:#eef2ff;color:#4338ca;border:1.5px solid #c7d2fe">Most trusted</span>
+    </div>
+  </div>
+
+  <!-- T4: Slate & Coral -->
+  <div class="theme-card t4" onclick="sel(this)">
+    <div class="selected-badge">✓ Picked</div>
+    <div class="theme-preview">
+      <div class="tb"><div class="tb-x">✕</div><div class="tb-bar"><div class="tb-fill"></div></div><div class="tb-streak">🔥 5</div></div>
+      <div class="mascot-row"><div class="mascot-mini">🦋</div><div class="bubble">Ready to bloom! 🌸</div></div>
+      <div class="mini-card">
+        <div class="mini-q">How well do you sleep? 😴</div>
+        <div class="mini-opts">
+          <div class="mini-opt">😩 Under 5 hrs</div>
+          <div class="mini-opt sel">😊 7–8 hrs, solid</div>
+          <div class="mini-opt">🥱 It varies</div>
+        </div>
+      </div>
+      <button class="mini-btn">Continue →</button>
+    </div>
+    <div class="theme-label">
+      <div class="theme-name">Slate & Coral</div>
+      <div class="theme-desc">Dark grey-blue → soft coral pop. Modern and sophisticated with a warm heart. Very Instagram-friendly.</div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#1e293b"></div>
+        <div class="swatch" style="background:#334155"></div>
+        <div class="swatch" style="background:#64748b"></div>
+        <div class="swatch" style="background:#fb7185"></div>
+      </div>
+      <span class="theme-tag" style="background:#fff1f2;color:#e11d48;border:1.5px solid #fecdd3">Most shareable</span>
+    </div>
+  </div>
+
+  <!-- T5: Terracotta -->
+  <div class="theme-card t5" onclick="sel(this)">
+    <div class="selected-badge">✓ Picked</div>
+    <div class="theme-preview">
+      <div class="tb"><div class="tb-x">✕</div><div class="tb-bar"><div class="tb-fill"></div></div><div class="tb-streak">🔥 5</div></div>
+      <div class="mascot-row"><div class="mascot-mini">🦅</div><div class="bubble">Rise up! 🌄</div></div>
+      <div class="mini-card">
+        <div class="mini-q">How well do you sleep? 😴</div>
+        <div class="mini-opts">
+          <div class="mini-opt">😩 Under 5 hrs</div>
+          <div class="mini-opt sel">😊 7–8 hrs, solid</div>
+          <div class="mini-opt">🥱 It varies</div>
+        </div>
+      </div>
+      <button class="mini-btn">Continue →</button>
+    </div>
+    <div class="theme-label">
+      <div class="theme-name">Terracotta Sunrise</div>
+      <div class="theme-desc">Deep burnt orange → terracotta → saffron. Earthy, grounded, confident. Great for motivational tone.</div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#431407"></div>
+        <div class="swatch" style="background:#9a3412"></div>
+        <div class="swatch" style="background:#ea580c"></div>
+        <div class="swatch" style="background:#fdba74"></div>
+      </div>
+      <span class="theme-tag" style="background:#fff7ed;color:#c2410c;border:1.5px solid #fed7aa">Most motivating</span>
+    </div>
+  </div>
+
+  <!-- T6: Lavender Dusk -->
+  <div class="theme-card t6" onclick="sel(this)">
+    <div class="selected-badge">✓ Picked</div>
+    <div class="theme-preview">
+      <div class="tb"><div class="tb-x">✕</div><div class="tb-bar"><div class="tb-fill"></div></div><div class="tb-streak">🔥 5</div></div>
+      <div class="mascot-row"><div class="mascot-mini">🦚</div><div class="bubble">So serene! 🌙</div></div>
+      <div class="mini-card">
+        <div class="mini-q">How well do you sleep? 😴</div>
+        <div class="mini-opts">
+          <div class="mini-opt">😩 Under 5 hrs</div>
+          <div class="mini-opt sel">😊 7–8 hrs, solid</div>
+          <div class="mini-opt">🥱 It varies</div>
+        </div>
+      </div>
+      <button class="mini-btn">Continue →</button>
+    </div>
+    <div class="theme-label">
+      <div class="theme-name">Lavender Dusk</div>
+      <div class="theme-desc">Deep plum → violet → soft lilac. Calming and luxurious — feels like premium self-care. Loved by women 30–45.</div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#2e1065"></div>
+        <div class="swatch" style="background:#6d28d9"></div>
+        <div class="swatch" style="background:#a78bfa"></div>
+        <div class="swatch" style="background:#e0c3fc"></div>
+      </div>
+      <span class="theme-tag" style="background:#f5f3ff;color:#6d28d9;border:1.5px solid #ddd6fe">Most calming</span>
+    </div>
+  </div>
+
+  <!-- T7: Teal & Champagne -->
+  <div class="theme-card t7" onclick="sel(this)">
+    <div class="selected-badge">✓ Picked</div>
+    <div class="theme-preview">
+      <div class="tb"><div class="tb-x">✕</div><div class="tb-bar"><div class="tb-fill"></div></div><div class="tb-streak">🔥 5</div></div>
+      <div class="mascot-row"><div class="mascot-mini">🐢</div><div class="bubble">Steady wins! 🏆</div></div>
+      <div class="mini-card">
+        <div class="mini-q">How well do you sleep? 😴</div>
+        <div class="mini-opts">
+          <div class="mini-opt">😩 Under 5 hrs</div>
+          <div class="mini-opt sel">😊 7–8 hrs, solid</div>
+          <div class="mini-opt">🥱 It varies</div>
+        </div>
+      </div>
+      <button class="mini-btn">Continue →</button>
+    </div>
+    <div class="theme-label">
+      <div class="theme-name">Teal & Champagne</div>
+      <div class="theme-desc">Deep teal → aqua → champagne gold. Feels like a premium wellness retreat. Both genders, 30–55.</div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#042f2e"></div>
+        <div class="swatch" style="background:#0f766e"></div>
+        <div class="swatch" style="background:#14b8a6"></div>
+        <div class="swatch" style="background:#d4a96a"></div>
+      </div>
+      <span class="theme-tag" style="background:#f0fdfa;color:#0f766e;border:1.5px solid #99f6e4">Most premium</span>
+    </div>
+  </div>
+
+  <!-- T8: Mocha -->
+  <div class="theme-card t8" onclick="sel(this)">
+    <div class="selected-badge">✓ Picked</div>
+    <div class="theme-preview">
+      <div class="tb"><div class="tb-x">✕</div><div class="tb-bar"><div class="tb-fill"></div></div><div class="tb-streak">🔥 5</div></div>
+      <div class="mascot-row"><div class="mascot-mini">🐻</div><div class="bubble">Warm & cozy ☕</div></div>
+      <div class="mini-card">
+        <div class="mini-q">How well do you sleep? 😴</div>
+        <div class="mini-opts">
+          <div class="mini-opt">😩 Under 5 hrs</div>
+          <div class="mini-opt sel">😊 7–8 hrs, solid</div>
+          <div class="mini-opt">🥱 It varies</div>
+        </div>
+      </div>
+      <button class="mini-btn">Continue →</button>
+    </div>
+    <div class="theme-label">
+      <div class="theme-name">Mocha Warmth</div>
+      <div class="theme-desc">Dark espresso → caramel → warm sand. Cozy, familiar, trustworthy. Feels like a morning routine app.</div>
+      <div class="theme-swatches">
+        <div class="swatch" style="background:#1c0a00"></div>
+        <div class="swatch" style="background:#6b3a2a"></div>
+        <div class="swatch" style="background:#a0633a"></div>
+        <div class="swatch" style="background:#c8956c"></div>
+      </div>
+      <span class="theme-tag" style="background:#fff7ed;color:#92400e;border:1.5px solid #fcd9b0">Most cozy</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function sel(card) {
+  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+}
+</script>
+</body>
+</html>
