@@ -1,0 +1,15 @@
+export const REG_STRINGS = {
+  bodyAgeLabel: 'YOUR BODY AGE',
+  yearsUnit: 'years',
+  heading: "You're one step away!",
+  subtext: 'Enter your details to lock in your free metabolic health plan.',
+  nameLabel: 'NAME',
+  namePlaceholder: 'Enter your name',
+  phoneLabel: 'WHATSAPP NUMBER',
+  phonePlaceholder: '98765 43210',
+  phonePrefix: '+91',
+  cta: 'RESERVE MY SPOT',
+  privacy: 'YOUR DATA IS SAFE WITH US',
+  errorName: 'Please enter your name',
+  errorPhone: 'Please enter a valid 10-digit number',
+} as const
