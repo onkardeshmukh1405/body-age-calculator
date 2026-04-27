@@ -1,113 +1,336 @@
 .screen {
-  width: 100%;
   min-height: 100dvh;
-  background: #fdf4ff;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-main);
+  padding: 32px 24px;
+}
+
+.goodHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.amazingText {
+  font-size: 28px;
+  font-weight: 800;
+  color: #58cc02;
+  margin: 0 0 4px;
+}
+
+.assessmentReady {
+  font-size: 12px;
+  font-weight: 700;
+  color: #afafaf;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  margin: 0;
+}
+
+.circleWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.circleGood {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 10px solid #58cc02;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 16px 48px;
-  position: relative;
-  overflow: hidden;
+  justify-content: center;
+  background: #fff;
 }
 
-.inner {
-  width: 100%;
-  max-width: 480px;
+.circleConcerning {
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+  border: 10px solid #ff9600;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
   position: relative;
-  z-index: 1;
 }
 
-.headerCard {
-  background: linear-gradient(150deg, #1e0a3c 0%, #6d28d9 60%, #a78bfa 100%);
-  border-radius: 24px;
-  padding: clamp(20px, 5vw, 28px);
-  text-align: center;
-  box-shadow: 0 6px 0 #4c1d95, 0 8px 24px rgba(109,40,217,0.2);
-  position: relative;
-  overflow: hidden;
-}
-
-.headerCard::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1.5px, transparent 1.5px);
-  background-size: 20px 20px;
-  pointer-events: none;
-}
-
-.heading {
-  font-size: clamp(12px, 3vw, 14px);
+.circleAgeGood {
+  font-size: 72px;
   font-weight: 800;
-  color: rgba(255,255,255,0.7);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 4px;
-}
-
-.bodyAge {
-  font-size: clamp(72px, 20vw, 100px);
-  font-weight: 900;
-  color: #ffffff;
+  color: #58cc02;
   line-height: 1;
-  animation: ageReveal 0.6s cubic-bezier(.34,1.56,.64,1);
-  text-shadow: 0 4px 24px rgba(0,0,0,0.2);
 }
 
-@keyframes ageReveal {
-  0% { transform: scale(0.3); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+.circleAgeConcerning {
+  font-size: 72px;
+  font-weight: 800;
+  color: #ff9600;
+  line-height: 1;
 }
 
-.vs {
-  font-size: clamp(13px, 3vw, 15px);
+.circleLabel {
+  font-size: 12px;
   font-weight: 700;
-  color: rgba(255,255,255,0.6);
-  margin-top: 4px;
-}
-
-.verdict {
-  font-size: clamp(15px, 4vw, 18px);
-  font-weight: 900;
-  color: #ffffff;
-  margin-top: 10px;
-  line-height: 1.3;
-}
-
-.whiteCard {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: clamp(16px, 4vw, 20px);
-  box-shadow: 0 4px 0 #e5e7eb, 0 6px 16px rgba(0,0,0,0.06);
-}
-
-.sectionLabel {
-  font-size: clamp(10px, 2.5vw, 11px);
-  font-weight: 900;
+  color: #afafaf;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #9ca3af;
-  margin-bottom: 10px;
+  letter-spacing: 1.2px;
 }
 
-.confetti {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 99;
-}
-
-.confettiPiece {
+.concerningBadge {
   position: absolute;
-  border-radius: 2px;
-  animation: confettiFall linear both;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff4b4b;
+  border-bottom: 4px solid #d33131;
+  border-radius: 20px;
+  padding: 6px 16px 10px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
-@keyframes confettiFall {
-  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+.realAge {
+  text-align: center;
+  font-size: 18px;
+  color: #4b4b4b;
+  margin: 8px 0 12px;
+}
+
+.realAgeGreen { color: #58cc02; font-weight: 700; }
+.realAgeOrange { color: #ff9600; font-weight: 700; }
+
+.statusBadge {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 8px 20px;
+  background: #58cc02;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+
+.feedbackCard {
+  background: #fff;
+  border: 2px solid #e5e5e5;
+  border-bottom: 4px solid #e5e5e5;
+  border-radius: 20px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+
+.feedbackText {
+  font-size: 18px;
+  color: #4b4b4b;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #4b4b4b;
+  margin-bottom: 12px;
+}
+
+.factorList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.factorCard {
+  background: #fff;
+  border: 2px solid #e5e5e5;
+  border-bottom: 4px solid #e5e5e5;
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.factorIconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: #e8fff0;
+  border: 2px solid rgba(88,204,2,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.factorIconWrapBad {
+  background: #fff4e5;
+  border-color: rgba(255,150,0,0.2);
+}
+
+.factorInfo {
+  flex: 1;
+}
+
+.factorLabel {
+  font-size: 16px;
+  font-weight: 700;
+  color: #4b4b4b;
+}
+
+.factorSublabel {
+  font-size: 14px;
+  color: #afafaf;
+  margin-top: 2px;
+}
+
+.factorBadgeGood {
+  font-size: 12px;
+  font-weight: 800;
+  color: #4b4b4b;
+  background: #f0f0f0;
+  padding: 4px 10px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.factorBadgeBad {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ff4b4b;
+  white-space: nowrap;
+}
+
+.hopeCard {
+  background: #fff4e5;
+  border: 2px solid #ff9600;
+  border-bottom: 4px solid #ff9600;
+  border-radius: 20px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.hopeIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.hopeTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ff9600;
+  margin: 0 0 6px;
+}
+
+.hopeBody {
+  font-size: 16px;
+  color: #4b4b4b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ctaSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btnGreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 18px;
+  background: #58cc02;
+  border: none;
+  border-bottom: 4px solid #46a302;
+  border-radius: 999px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.btnGreen:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+.btnOutline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 16px;
+  background: #fff;
+  border: 2px solid #58cc02;
+  border-bottom: 4px solid #58cc02;
+  border-radius: 999px;
+  color: #58cc02;
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.btnOutline:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+.btnOrange {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 18px;
+  background: #ff864b;
+  border: none;
+  border-bottom: 4px solid #d96a36;
+  border-radius: 20px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.btnOrange:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+.concerningSubfooter {
+  text-align: center;
+  font-size: 13px;
+  color: #afafaf;
+  margin-top: 12px;
+}
+
+.estimatedLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #afafaf;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  text-align: center;
+  margin-bottom: 16px;
 }

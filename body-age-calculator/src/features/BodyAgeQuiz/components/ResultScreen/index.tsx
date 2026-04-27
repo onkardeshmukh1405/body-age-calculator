@@ -1,85 +1,101 @@
-import { useMemo, useRef, useEffect } from 'react'
+import { useMemo } from 'react'
 import styles from './ResultScreen.module.css'
-import globalStyles from '../../BodyAgeQuiz.module.css'
-import { getVerdict, getHabitResults } from '../../utils/scoring'
-import { HabitBadge } from './HabitBadge'
-import { TipsCarousel } from './TipsCarousel'
-import { ShareCard } from './ShareCard'
-import { RESULT_STRINGS } from './constants'
+import { RESULT_STRINGS, getFeedbackMessage } from './constants'
+import { getFactorAnalysis } from '../../utils/scoring'
 import type { QuizState } from '../../types'
 
 interface ResultScreenProps {
   state: QuizState
-  onReset: () => void
+  onRegister: () => void
 }
 
-const CONFETTI_COLORS = ['#a78bfa', '#fbcfe8', '#fde68a', '#6ee7b7', '#ffffff', '#c4b5fd']
+export function ResultScreen({ state, onRegister }: ResultScreenProps) {
+  const isGood = state.bodyAge <= state.age
+  const { good, bad } = useMemo(() => getFactorAnalysis(state.answers), [state.answers])
+  const feedbackMsg = getFeedbackMessage(state.bodyAge, state.age)
 
-function useConfetti() {
-  const pieces = useMemo(() => {
-    return Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-      width: `${6 + Math.random() * 6}px`,
-      height: `${10 + Math.random() * 8}px`,
-      duration: `${1.5 + Math.random() * 1.5}s`,
-      delay: `${Math.random() * 0.6}s`,
-    }))
-  }, [])
-  return pieces
-}
-
-export function ResultScreen({ state, onReset }: ResultScreenProps) {
-  const verdict = useMemo(() => getVerdict(state.age, state.bodyAge), [state.age, state.bodyAge])
-  const habitResults = useMemo(() => getHabitResults(state.answers), [state.answers])
-  const confetti = useConfetti()
-  const topRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [])
+  if (isGood) {
+    return (
+      <div className={styles.screen}>
+        <div className={styles.goodHeader}>
+          <p className={styles.amazingText}>{RESULT_STRINGS.good.header}</p>
+          <p className={styles.assessmentReady}>{RESULT_STRINGS.good.subheader}</p>
+        </div>
+        <div className={styles.circleWrap}>
+          <div className={styles.circleGood}>
+            <span className={styles.circleAgeGood}>{state.bodyAge}</span>
+            <span className={styles.circleLabel}>{RESULT_STRINGS.good.bodyAgeLabel}</span>
+          </div>
+        </div>
+        <p className={styles.realAge}>
+          {RESULT_STRINGS.good.realAgePrefix}
+          <span className={styles.realAgeGreen}>{state.age}</span>
+        </p>
+        <span className={styles.statusBadge}>{RESULT_STRINGS.good.statusBadge}</span>
+        <div className={styles.feedbackCard}>
+          <p className={styles.feedbackText}>{feedbackMsg}</p>
+        </div>
+        <p className={styles.sectionTitle}>{RESULT_STRINGS.good.factorTitle}</p>
+        <div className={styles.factorList}>
+          {good.map(f => (
+            <div className={styles.factorCard} key={f.label}>
+              <div className={styles.factorIconWrap}>{f.icon}</div>
+              <div className={styles.factorInfo}>
+                <div className={styles.factorLabel}>{f.label}</div>
+                <div className={styles.factorSublabel}>{f.sublabel}</div>
+              </div>
+              <span className={styles.factorBadgeGood}>{f.badge}</span>
+            </div>
+          ))}
+        </div>
+        <div className={styles.ctaSection}>
+          <button className={styles.btnGreen} onClick={onRegister}>{RESULT_STRINGS.good.primaryCta}</button>
+          <button className={styles.btnOutline} onClick={onRegister}>{RESULT_STRINGS.good.secondaryCta}</button>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className={styles.screen} ref={topRef}>
-      <div className={styles.confetti} aria-hidden="true">
-        {confetti.map(p => (
-          <div
-            key={p.id}
-            className={styles.confettiPiece}
-            style={{
-              left: p.left,
-              top: '-20px',
-              width: p.width,
-              height: p.height,
-              background: p.color,
-              animationDuration: p.duration,
-              animationDelay: p.delay,
-            }}
-          />
+    <div className={styles.screen}>
+      <p className={styles.estimatedLabel}>{RESULT_STRINGS.concerning.header}</p>
+      <div className={styles.circleWrap}>
+        <div className={styles.circleConcerning}>
+          <span className={styles.circleAgeConcerning}>{state.bodyAge}</span>
+          <span className={styles.circleLabel}>YEARS OLD</span>
+          <span className={styles.concerningBadge}>{RESULT_STRINGS.concerning.badge}</span>
+        </div>
+      </div>
+      <p className={styles.realAge} style={{ marginTop: 28 }}>
+        {RESULT_STRINGS.concerning.realAgePrefix}
+        <span className={styles.realAgeOrange}>{state.age}</span>
+      </p>
+      <div className={styles.feedbackCard}>
+        <p className={styles.feedbackText}>{feedbackMsg}</p>
+      </div>
+      <p className={styles.sectionTitle}>{RESULT_STRINGS.concerning.factorTitle}</p>
+      <div className={styles.factorList}>
+        {bad.map(f => (
+          <div className={styles.factorCard} key={f.label}>
+            <div className={`${styles.factorIconWrap} ${styles.factorIconWrapBad}`}>{f.icon}</div>
+            <div className={styles.factorInfo}>
+              <div className={styles.factorLabel}>{f.label}</div>
+              <div className={styles.factorSublabel}>{f.sublabel}</div>
+            </div>
+            <span className={styles.factorBadgeBad}>{f.badge}</span>
+          </div>
         ))}
       </div>
-
-      <div className={styles.inner}>
-        <div className={styles.headerCard}>
-          <div className={styles.heading}>{RESULT_STRINGS.heading}</div>
-          <div className={styles.bodyAge}>{state.bodyAge}</div>
-          <div className={styles.vs}>{RESULT_STRINGS.vsLabel(state.age)}</div>
-          <div className={styles.verdict}>{verdict}</div>
+      <div className={styles.hopeCard}>
+        <span className={styles.hopeIcon}>&#x1F4A1;</span>
+        <div>
+          <p className={styles.hopeTitle}>{RESULT_STRINGS.concerning.hopeTitle}</p>
+          <p className={styles.hopeBody}>{RESULT_STRINGS.concerning.hopeBody}</p>
         </div>
-
-        <div className={styles.whiteCard}>
-          <div className={styles.sectionLabel}>{RESULT_STRINGS.habitsLabel}</div>
-          <HabitBadge results={habitResults} />
-        </div>
-
-        <TipsCarousel results={habitResults} />
-
-        <ShareCard bodyAge={state.bodyAge} realAge={state.age} />
-
-        <button className={globalStyles.btn3d} onClick={onReset}>
-          {RESULT_STRINGS.retakeBtn}
-        </button>
+      </div>
+      <div className={styles.ctaSection}>
+        <button className={styles.btnOrange} onClick={onRegister}>{RESULT_STRINGS.concerning.primaryCta}</button>
+        <p className={styles.concerningSubfooter}>{RESULT_STRINGS.concerning.footer}</p>
       </div>
     </div>
   )

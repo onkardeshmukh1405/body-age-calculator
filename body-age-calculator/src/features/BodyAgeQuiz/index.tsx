@@ -5,10 +5,11 @@ import { AgeInput } from './components/AgeInput'
 import { QuizScreen } from './components/QuizScreen'
 import { RevealScreen } from './components/RevealScreen'
 import { ResultScreen } from './components/ResultScreen'
+import { RegistrationScreen } from './components/RegistrationScreen'
 import styles from './BodyAgeQuiz.module.css'
 
 export function BodyAgeQuiz() {
-  const { state, start, setAge, selectOption, nextQuestion, revealComplete, reset } = useQuiz()
+  const { state, start, setAge, selectOption, nextQuestion, revealComplete, goToRegistration, submitRegistration, reset } = useQuiz()
   const { startBgMusic } = useSound()
 
   const handleStart = () => {
@@ -39,7 +40,10 @@ export function BodyAgeQuiz() {
         />
       )}
       {state.screen === 'result' && (
-        <ResultScreen state={state} onReset={reset} />
+        <ResultScreen state={state} onRegister={goToRegistration} />
+      )}
+      {state.screen === 'registration' && (
+        <RegistrationScreen bodyAge={state.bodyAge} onSubmit={submitRegistration} />
       )}
     </div>
   )
