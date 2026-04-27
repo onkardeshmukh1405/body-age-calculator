@@ -9,8 +9,7 @@ import styles from './BodyAgeQuiz.module.css'
 
 export function BodyAgeQuiz() {
   const { state, start, setAge, selectOption, nextQuestion, revealComplete, reset } = useQuiz()
-  const streakCount = state.answers.filter(s => s <= -1).length
-  const { play, startBgMusic } = useSound()
+  const { startBgMusic } = useSound()
 
   const handleStart = () => {
     startBgMusic()
@@ -28,12 +27,9 @@ export function BodyAgeQuiz() {
       {state.screen === 'quiz' && (
         <QuizScreen
           state={state}
-          streakCount={streakCount}
           onSelectOption={selectOption}
           onNext={nextQuestion}
           onClose={reset}
-          onPlayPop={() => play('pop')}
-          onPlayWhoosh={() => play('whoosh')}
         />
       )}
       {state.screen === 'reveal' && (

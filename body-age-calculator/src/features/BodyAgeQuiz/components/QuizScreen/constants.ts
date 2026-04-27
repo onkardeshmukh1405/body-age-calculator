@@ -1,6 +1,5 @@
-export const QUIZ_SCREEN_STRINGS = {
-  questionLabel: (current: number, total: number) => `Question ${current} of ${total}`,
-  nextBtn: 'Next →',
-  closeAriaLabel: 'Close quiz',
-  totalQuestions: 9,
+export const QUIZ_STRINGS = {
+  cta: 'CONTINUE',
 } as const
+
+export const OPTION_LABELS = ['1', '2', '3', '4'] as const
