@@ -6,6 +6,7 @@ import { QuizScreen } from './components/QuizScreen'
 import { RevealScreen } from './components/RevealScreen'
 import { ResultScreen } from './components/ResultScreen'
 import { RegistrationScreen } from './components/RegistrationScreen'
+import { SuccessScreen } from './components/SuccessScreen'
 import styles from './BodyAgeQuiz.module.css'
 
 export function BodyAgeQuiz() {
@@ -44,6 +45,9 @@ export function BodyAgeQuiz() {
       )}
       {state.screen === 'registration' && (
         <RegistrationScreen bodyAge={state.bodyAge} onSubmit={submitRegistration} />
+      )}
+      {state.screen === 'success' && (
+        <SuccessScreen name={state.name} onReset={reset} />
       )}
     </div>
   )
