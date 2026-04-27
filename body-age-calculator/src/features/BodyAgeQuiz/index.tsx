@@ -7,8 +7,6 @@ import { RevealScreen } from './components/RevealScreen'
 import { ResultScreen } from './components/ResultScreen'
 import { RegistrationScreen } from './components/RegistrationScreen'
 import { SuccessScreen } from './components/SuccessScreen'
-import styles from './BodyAgeQuiz.module.css'
-
 export function BodyAgeQuiz() {
   const { state, start, setAge, selectOption, nextQuestion, revealComplete, goToRegistration, submitRegistration, reset } = useQuiz()
   const { startBgMusic } = useSound()
@@ -19,7 +17,7 @@ export function BodyAgeQuiz() {
   }
 
   return (
-    <div className={styles.root}>
+    <div className="font-nunito bg-[#fcf9f4] min-h-[100dvh] w-full max-w-[430px] mx-auto relative overflow-x-hidden">
       {state.screen === 'welcome' && (
         <WelcomeScreen onStart={handleStart} />
       )}
