@@ -14,7 +14,7 @@
   max-width: 480px;
   padding: clamp(13px, 3.5vw, 16px);
   border-radius: 16px;
-  border: none;
+  border: 2.5px solid rgba(255, 255, 255, 0.75);
   font-family: 'Nunito', sans-serif;
   font-size: clamp(14px, 4vw, 17px);
   font-weight: 900;
@@ -24,7 +24,7 @@
   background: linear-gradient(90deg, #7c3aed, #a78bfa);
   box-shadow: 0 5px 0 #4c1d95;
   cursor: pointer;
-  transition: transform 0.12s, box-shadow 0.12s;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s, color 0.12s;
 }
 
 .btn3d:hover {
@@ -35,6 +35,9 @@
 .btn3d:active {
   transform: translateY(3px);
   box-shadow: 0 2px 0 #4c1d95;
+  background: #ffffff;
+  color: #7c3aed;
+  border-color: #7c3aed;
 }
 
 .btn3d:disabled {

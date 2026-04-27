@@ -3,12 +3,12 @@
   align-items: center;
   gap: clamp(10px, 3vw, 14px);
   background: #ffffff;
-  border: 2.5px solid #e5e7eb;
+  border: 2.5px solid rgba(255, 255, 255, 0.9);
   border-radius: 16px;
   padding: clamp(10px, 3vw, 14px) clamp(12px, 3.5vw, 16px);
   cursor: pointer;
   transition: transform 0.15s cubic-bezier(.34,1.56,.64,1), box-shadow 0.15s, border-color 0.15s, background 0.15s;
-  box-shadow: 0 4px 0 #e5e7eb;
+  box-shadow: 0 4px 0 rgba(167, 139, 250, 0.25);
   width: 100%;
   text-align: left;
   font-family: 'Nunito', sans-serif;
@@ -22,14 +22,14 @@
 
 .selected {
   border-color: #7c3aed;
-  background: #f5f3ff;
-  box-shadow: 0 4px 0 #4c1d95;
+  background: #ffffff;
+  box-shadow: 0 4px 0 #7c3aed;
   transform: translateY(-2px);
 }
 
 .option:active {
   transform: translateY(2px);
-  box-shadow: 0 1px 0 #e5e7eb;
+  box-shadow: 0 1px 0 rgba(167, 139, 250, 0.25);
 }
 
 .emoji {
@@ -58,5 +58,9 @@
 }
 
 .selected .label {
-  color: #4c1d95;
+  color: #7c3aed;
+}
+
+.selected .sublabel {
+  color: #a78bfa;
 }
