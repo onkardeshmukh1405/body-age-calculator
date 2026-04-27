@@ -11,5 +11,5 @@ export const REG_STRINGS = {
   cta: 'RESERVE MY SPOT',
   privacy: 'YOUR DATA IS SAFE WITH US',
   errorName: 'Please enter your name',
-  errorPhone: 'Please enter a valid 10-digit number',
+  errorPhone: 'Please enter a valid phone number',
 } as const
