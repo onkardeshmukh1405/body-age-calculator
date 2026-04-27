@@ -1,3 +1,125 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { min-height: 100dvh; overflow-x: hidden; }
-#root { min-height: 100dvh; }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #5300b7;
+  --color-accent-red: #ff4b4b;
+  --color-accent-green: #58cc02;
+  --color-accent-orange: #ff9600;
+  --color-accent-blue: #1cb0f6;
+  --color-cta: #ff845e;
+  --color-cta-border: #e56a47;
+  --color-bg: #fcf9f4;
+  --color-white: #ffffff;
+  --color-text: #4b4b4b;
+  --color-text-muted: #6b7280;
+  --color-text-light: #afafaf;
+  --color-border: #e5e5e5;
+  --font-main: 'Nunito', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background: #fcf9f4;
+}
+
+@layer components {
+  .btn-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: none;
+    border-radius: 9999px;
+    padding: 16px 24px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  .btn-pill:active {
+    transform: translateY(2px);
+  }
+
+  .btn-pill:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-green {
+    background: #58cc02;
+    border-bottom: 4px solid #46a302;
+  }
+
+  .btn-green:active {
+    border-bottom-width: 2px;
+  }
+
+  .btn-orange {
+    background: #ff845e;
+    border-bottom: 4px solid #e56a47;
+  }
+
+  .btn-orange:active {
+    border-bottom-width: 2px;
+  }
+
+  .btn-purple {
+    background: #5300b7;
+    border-bottom: 4px solid #3a0082;
+  }
+
+  .btn-purple:active {
+    border-bottom-width: 2px;
+  }
+
+  .btn-salmon {
+    background: #ff4b4b;
+    border-bottom: 4px solid #d03030;
+  }
+
+  .btn-salmon:active {
+    border-bottom-width: 2px;
+  }
+
+  .btn-outline-green {
+    background: #fff;
+    border: 2px solid #58cc02;
+    border-bottom: 4px solid #58cc02;
+    border-radius: 9999px;
+    color: #58cc02;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-outline-green:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+  }
+
+  .card {
+    background: #fff;
+    border: 2px solid #e5e5e5;
+    border-bottom: 4px solid #e5e5e5;
+    border-radius: 20px;
+    padding: 24px;
+  }
+}
