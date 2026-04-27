@@ -27,7 +27,7 @@ export function QuizScreen({ state, onSelectOption, onNext, onClose }: QuizScree
         </button>
         <div className="flex-1 h-2 bg-[#e5e5e5] rounded-full overflow-hidden">
           <div
-            className="h-full bg-[#58cc02] rounded-full transition-[width] duration-300 ease-in-out"
+            className="h-full bg-[#ff845e] rounded-full transition-[width] duration-300 ease-in-out"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -41,16 +41,16 @@ export function QuizScreen({ state, onSelectOption, onNext, onClose }: QuizScree
           {question.options.map((opt, i) => {
             const isSelected = state.selectedOption === i
             const cardClass = isSelected
-              ? 'flex items-center gap-4 px-5 py-4 bg-[#e8f4ff] rounded-2xl cursor-pointer text-left w-full transition-all duration-150'
+              ? 'flex items-center gap-4 px-5 py-4 bg-[#fff5f1] rounded-2xl cursor-pointer text-left w-full transition-all duration-150'
               : 'flex items-center gap-4 px-5 py-4 bg-white rounded-2xl cursor-pointer text-left w-full transition-all duration-150'
             const cardStyle = isSelected
-              ? { border: '2px solid #1cb0f6', borderBottom: '4px solid #1cb0f6' }
+              ? { border: '2px solid #ff845e', borderBottom: '4px solid #e56a47' }
               : { border: '2px solid #e5e5e5', borderBottom: '4px solid #e5e5e5' }
             const badgeClass = isSelected
-              ? 'w-9 h-9 rounded-full bg-[#1cb0f6] flex items-center justify-center text-[14px] font-bold text-white flex-shrink-0'
+              ? 'w-9 h-9 rounded-full bg-[#ff845e] flex items-center justify-center text-[14px] font-bold text-white flex-shrink-0'
               : 'w-9 h-9 rounded-full bg-[#f0f0f0] flex items-center justify-center text-[14px] font-bold text-[#afafaf] flex-shrink-0'
             const labelClass = isSelected
-              ? 'text-[16px] font-semibold text-[#1cb0f6]'
+              ? 'text-[16px] font-semibold text-[#ff845e]'
               : 'text-[16px] font-semibold text-[#4b4b4b]'
 
             return (
@@ -69,7 +69,7 @@ export function QuizScreen({ state, onSelectOption, onNext, onClose }: QuizScree
         <div className="pt-6">
           <button
             className="flex items-center justify-center w-full py-[18px] rounded-full text-white font-nunito text-[16px] font-extrabold tracking-[0.5px] uppercase cursor-pointer transition-transform active:translate-y-0.5 disabled:opacity-45 disabled:cursor-not-allowed disabled:pointer-events-none"
-            style={{ background: '#58cc02', border: 'none', borderBottom: '4px solid #46a302' }}
+            style={{ background: '#ff845e', border: 'none', borderBottom: '4px solid #e56a47' }}
             onClick={onNext}
             disabled={state.selectedOption === null}
           >

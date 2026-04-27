@@ -40,7 +40,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         </p>
 
         <button
-          className="flex items-center justify-center gap-2.5 w-full py-[18px] px-6 rounded-full text-white font-nunito text-[18px] font-extrabold tracking-[0.5px] cursor-pointer shadow-[0_8px_20px_rgba(0,0,0,0.12)] mb-5 active:translate-y-0.5"
+          className="flex items-center justify-center gap-2 w-full py-[18px] px-4 rounded-full text-white font-nunito text-[14px] font-extrabold tracking-[0.3px] cursor-pointer shadow-[0_8px_20px_rgba(0,0,0,0.12)] mb-5 active:translate-y-0.5 whitespace-nowrap"
           style={{ background: '#ff845e', border: 'none', borderBottom: '4px solid #e56a47' }}
           onClick={onStart}
         >
