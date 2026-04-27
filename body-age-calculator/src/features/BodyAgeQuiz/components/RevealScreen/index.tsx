@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import styles from './RevealScreen.module.css'
 import { REVEAL_STRINGS, REVEAL_DURATION_MS } from './constants'
 
 interface RevealScreenProps {
@@ -30,15 +29,15 @@ export function RevealScreen({ bodyAge: _bodyAge, onComplete }: RevealScreenProp
   }, [onComplete])
 
   return (
-    <div className={styles.screen}>
-      <div className={styles.inner}>
-        <h2 className={styles.heading}>{REVEAL_STRINGS.heading}</h2>
-        <p className={styles.subtext}>{REVEAL_STRINGS.subtext}</p>
-        <div className={styles.barWrap}>
-          <div className={styles.barTrack}>
-            <div className={styles.barFill} style={{ width: `${progress}%` }} />
+    <div className="min-h-[100dvh] bg-[#fdfaf5] flex items-center justify-center font-nunito p-8">
+      <div className="flex flex-col items-center gap-4 w-full max-w-[360px]">
+        <h2 className="text-[24px] font-extrabold text-[#111827] text-center tracking-[-0.6px] m-0">{REVEAL_STRINGS.heading}</h2>
+        <p className="text-[14px] font-semibold text-[#6b7280] text-center uppercase tracking-[2.8px] m-0">{REVEAL_STRINGS.subtext}</p>
+        <div className="mt-8 w-[280px] flex flex-col items-center gap-3">
+          <div className="w-full h-[6px] bg-[#e5e7eb] rounded-full overflow-hidden">
+            <div className="h-full bg-[#582c8b] rounded-full transition-[width] duration-100 ease-linear" style={{ width: `${progress}%` }} />
           </div>
-          <span className={styles.processingLabel}>{REVEAL_STRINGS.processing}</span>
+          <span className="text-[12px] font-bold text-[rgba(88,44,139,0.6)] uppercase tracking-[1.2px] text-center">{REVEAL_STRINGS.processing}</span>
         </div>
       </div>
     </div>
