@@ -33,3 +33,60 @@ export function getHabitResults(answers: number[]): HabitResult[] {
     }
   })
 }
+
+export interface Factor {
+  icon: string
+  label: string
+  sublabel: string
+  badge: string
+  isPositive: boolean
+}
+
+const FACTOR_META = [
+  { icon: '🏃', goodLabel: 'Active Lifestyle',  goodSub: 'Daily movement',       badLabel: 'Sedentary Behavior', badSub: 'Low movement' },
+  { icon: '😴', goodLabel: 'Consistent Sleep',   goodSub: '7-8hr average',        badLabel: 'Poor Sleep Quality', badSub: 'Inadequate recovery' },
+  { icon: '🥗', goodLabel: 'Healthy Diet',       goodSub: 'Whole foods',          badLabel: 'Poor Nutrition',     badSub: 'Processed food heavy' },
+  { icon: '🫁', goodLabel: 'Clean Lungs',         goodSub: 'Smoke-free',           badLabel: 'Smoking Habit',      badSub: 'Lung stress' },
+  { icon: '🧘', goodLabel: 'Low Stress',          goodSub: 'Mindful living',       badLabel: 'High Stress',        badSub: 'Elevated cortisol' },
+  { icon: '💧', goodLabel: 'Well Hydrated',       goodSub: 'Optimal intake',       badLabel: 'Poor Hydration',     badSub: 'Low water intake' },
+  { icon: '⚡', goodLabel: 'High Energy',         goodSub: 'Full battery',         badLabel: 'Low Energy',         badSub: 'Fatigue pattern' },
+  { icon: '🍃', goodLabel: 'Alcohol-Free',        goodSub: 'Clean lifestyle',      badLabel: 'High Alcohol Use',   badSub: 'Liver strain' },
+  { icon: '🌈', goodLabel: 'Positive Mindset',    goodSub: 'Emotional balance',    badLabel: 'Low Mood',           badSub: 'Mental fatigue' },
+] as const
+
+function scoreToBadge(score: number): string {
+  if (score === -2) return 'OPTIMAL'
+  if (score === -1) return 'GOOD'
+  if (score === 2)  return '+3 YRS'
+  return '+4 YRS'
+}
+
+export function getFactorAnalysis(answers: number[]): { good: Factor[]; bad: Factor[] } {
+  const indexed = answers.map((score, i) => ({ score, i }))
+
+  const goodFactors = indexed
+    .filter(({ score }) => score <= -1)
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 3)
+    .map(({ score, i }) => ({
+      icon: FACTOR_META[i].icon,
+      label: FACTOR_META[i].goodLabel,
+      sublabel: FACTOR_META[i].goodSub,
+      badge: scoreToBadge(score),
+      isPositive: true,
+    }))
+
+  const badFactors = indexed
+    .filter(({ score }) => score >= 2)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map(({ score, i }) => ({
+      icon: FACTOR_META[i].icon,
+      label: FACTOR_META[i].badLabel,
+      sublabel: FACTOR_META[i].badSub,
+      badge: scoreToBadge(score),
+      isPositive: false,
+    }))
+
+  return { good: goodFactors, bad: badFactors }
+}
