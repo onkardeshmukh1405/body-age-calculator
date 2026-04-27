@@ -9,6 +9,8 @@ const initialState: QuizState = {
   answers: [],
   selectedOption: null,
   bodyAge: 0,
+  name: '',
+  phone: '',
 }
 
 function reducer(state: QuizState, action: QuizAction): QuizState {
@@ -45,6 +47,12 @@ function reducer(state: QuizState, action: QuizAction): QuizState {
     case 'REVEAL_COMPLETE':
       return { ...state, screen: 'result' }
 
+    case 'GO_TO_REGISTRATION':
+      return { ...state, screen: 'registration' }
+
+    case 'SUBMIT_REGISTRATION':
+      return { ...state, name: action.name, phone: action.phone, screen: 'success' }
+
     case 'RESET':
       return initialState
 
@@ -63,9 +71,10 @@ export function useQuiz() {
   const nextQuestion = useCallback(() => dispatch({ type: 'NEXT_QUESTION' }), [])
   const revealComplete = useCallback((bodyAge: number) =>
     dispatch({ type: 'REVEAL_COMPLETE', bodyAge }), [])
+  const goToRegistration = useCallback(() => dispatch({ type: 'GO_TO_REGISTRATION' }), [])
+  const submitRegistration = useCallback((name: string, phone: string) =>
+    dispatch({ type: 'SUBMIT_REGISTRATION', name, phone }), [])
   const reset = useCallback(() => dispatch({ type: 'RESET' }), [])
 
-  const streakCount = state.answers.filter(s => s <= -1).length
-
-  return { state, start, setAge, selectOption, nextQuestion, revealComplete, reset, streakCount }
+  return { state, start, setAge, selectOption, nextQuestion, revealComplete, goToRegistration, submitRegistration, reset }
 }

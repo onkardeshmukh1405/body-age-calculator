@@ -8,7 +8,8 @@ import { ResultScreen } from './components/ResultScreen'
 import styles from './BodyAgeQuiz.module.css'
 
 export function BodyAgeQuiz() {
-  const { state, start, setAge, selectOption, nextQuestion, revealComplete, reset, streakCount } = useQuiz()
+  const { state, start, setAge, selectOption, nextQuestion, revealComplete, reset } = useQuiz()
+  const streakCount = state.answers.filter(s => s <= -1).length
   const { play, startBgMusic, toggleMusic, musicOn } = useSound()
 
   const handleStart = () => {

@@ -1,4 +1,4 @@
-export type Screen = 'welcome' | 'age_input' | 'quiz' | 'reveal' | 'result'
+export type Screen = 'welcome' | 'age_input' | 'quiz' | 'reveal' | 'result' | 'registration' | 'success'
 
 export interface AnswerOption {
   emoji: string
@@ -23,6 +23,8 @@ export interface QuizState {
   answers: number[]
   selectedOption: number | null
   bodyAge: number
+  name: string
+  phone: string
 }
 
 export type QuizAction =
@@ -31,4 +33,6 @@ export type QuizAction =
   | { type: 'SELECT_OPTION'; optionIndex: number; score: number }
   | { type: 'NEXT_QUESTION' }
   | { type: 'REVEAL_COMPLETE'; bodyAge: number }
+  | { type: 'GO_TO_REGISTRATION' }
+  | { type: 'SUBMIT_REGISTRATION'; name: string; phone: string }
   | { type: 'RESET' }
