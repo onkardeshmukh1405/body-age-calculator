@@ -1,7 +1,7 @@
 import { QUESTIONS } from '../constants/questions'
 
 export function calculateBodyAge(age: number, answers: number[]): number {
-  const total = answers.reduce((sum, score) => sum + (score < 0 ? score : score - 1), 0)
+  const total = answers.reduce((sum, score) => sum + score, 0)
   const raw = age + total
   const min = Math.max(18, age - 15)
   const max = age + 15

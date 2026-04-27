@@ -22,9 +22,9 @@ describe('calculateBodyAge', () => {
     expect(calculateBodyAge(35, answers)).toBe(21)
   })
 
-  it('returns exact age when all scores are zero-balanced', () => {
-    const answers = [-2, 3, -2, 3, -2, 3, -2, 3, -2]
-    expect(calculateBodyAge(40, answers)).toBe(38)
+  it('returns exact age when sum is zero', () => {
+    const answers = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    expect(calculateBodyAge(40, answers)).toBe(40)
   })
 })
 
