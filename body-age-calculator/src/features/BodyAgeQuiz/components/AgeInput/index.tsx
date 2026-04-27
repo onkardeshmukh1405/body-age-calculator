@@ -1,50 +1,41 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import styles from './AgeInput.module.css'
-import globalStyles from '../../BodyAgeQuiz.module.css'
-import { Mascot } from '../QuizScreen/Mascot'
-import { AGE_INPUT_STRINGS, AGE_MIN, AGE_MAX } from './constants'
+import { AGE_INPUT_STRINGS, AGE_MIN, AGE_MAX, AGE_DEFAULT } from './constants'
 
 interface AgeInputProps {
   onSubmit: (age: number) => void
+  onClose: () => void
 }
 
-export function AgeInput({ onSubmit }: AgeInputProps) {
-  const [value, setValue] = useState('')
-  const [error, setError] = useState('')
+export function AgeInput({ onSubmit, onClose }: AgeInputProps) {
+  const [age, setAge] = useState(AGE_DEFAULT)
 
-  const handleSubmit = () => {
-    const age = Number(value)
-    if (age < AGE_MIN) { setError(AGE_INPUT_STRINGS.errorMin); return }
-    if (age > AGE_MAX) { setError(AGE_INPUT_STRINGS.errorMax); return }
-    setError('')
-    onSubmit(age)
-  }
+  const decrement = useCallback(() => setAge(a => Math.max(AGE_MIN, a - 1)), [])
+  const increment = useCallback(() => setAge(a => Math.min(AGE_MAX, a + 1)), [])
 
   return (
     <div className={styles.screen}>
-      <div className={styles.inner}>
-        <Mascot speech={AGE_INPUT_STRINGS.mascotSpeech} />
-        <h2 className={styles.heading}>{AGE_INPUT_STRINGS.heading}</h2>
-        <div className={styles.inputWrap}>
-          <input
-            className={styles.ageInput}
-            type="number"
-            min={AGE_MIN}
-            max={AGE_MAX}
-            value={value}
-            placeholder={AGE_INPUT_STRINGS.placeholder}
-            onChange={e => { setValue(e.target.value); setError('') }}
-            onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-            autoFocus
-          />
+      <div className={styles.progressWrap}>
+        <button className={styles.closeBtn} onClick={onClose} aria-label="Close">&#x2715;</button>
+        <div className={styles.progressTrack}>
+          <div className={styles.progressFill} />
         </div>
-        {error && <p className={styles.error}>{error}</p>}
+      </div>
+      <div className={styles.inner}>
+        <h1 className={styles.heading}>{AGE_INPUT_STRINGS.heading}</h1>
+        <p className={styles.subtext}>{AGE_INPUT_STRINGS.subtext}</p>
+        <div className={styles.stepperArea}>
+          <div className={styles.stepperRow}>
+            <button className={styles.stepBtn} onClick={decrement} aria-label="Decrease age">&#x2212;</button>
+            <div className={styles.ageCard}>
+              <span className={styles.ageNumber}>{age}</span>
+              <span className={styles.yearsLabel}>{AGE_INPUT_STRINGS.yearsLabel}</span>
+            </div>
+            <button className={styles.stepBtn} onClick={increment} aria-label="Increase age">&#x2B;</button>
+          </div>
+        </div>
         <div className={styles.ctaWrap}>
-          <button
-            className={globalStyles.btn3d}
-            onClick={handleSubmit}
-            disabled={!value}
-          >
+          <button className={styles.ctaBtn} onClick={() => onSubmit(age)}>
             {AGE_INPUT_STRINGS.cta}
           </button>
         </div>

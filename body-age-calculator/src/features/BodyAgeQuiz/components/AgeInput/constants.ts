@@ -1,11 +1,10 @@
 export const AGE_INPUT_STRINGS = {
-  heading: 'First, how old are you?',
-  placeholder: '30',
-  cta: "Let's Go →",
-  mascotSpeech: 'This stays between us! 🤫',
-  errorMin: 'Please enter an age of 18 or above',
-  errorMax: 'Please enter an age of 90 or below',
+  heading: 'First, tell us your real age.',
+  subtext: 'Accuracy helps us calculate your bio-age more precisely.',
+  yearsLabel: 'YEARS OLD',
+  cta: 'CONTINUE',
 } as const
 
-export const AGE_MIN = 18
-export const AGE_MAX = 90
+export const AGE_MIN = 10
+export const AGE_MAX = 100
+export const AGE_DEFAULT = 25

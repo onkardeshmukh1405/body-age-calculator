@@ -1,82 +1,155 @@
 .screen {
-  width: 100%;
   min-height: 100dvh;
-  background: linear-gradient(150deg, #1e0a3c 0%, #6d28d9 45%, #a78bfa 80%, #f3e8ff 100%);
+  background: #fcf9f4;
   display: flex;
   flex-direction: column;
+  font-family: var(--font-main);
+}
+
+.progressWrap {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 32px 16px 48px;
-  position: relative;
+  gap: 12px;
+  padding: 20px 20px 8px;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #afafaf;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 8px;
+  background: #e5e5e5;
+  border-radius: 999px;
   overflow: hidden;
 }
 
-.screen::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1.5px, transparent 1.5px);
-  background-size: 22px 22px;
-  pointer-events: none;
+.progressFill {
+  height: 100%;
+  background: #58cc02;
+  border-radius: 999px;
+  width: 5%;
 }
 
 .inner {
+  flex: 1;
+  padding: 32px 20px 32px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-  max-width: 400px;
-  position: relative;
-  z-index: 1;
 }
 
 .heading {
-  font-size: clamp(22px, 6vw, 30px);
-  font-weight: 900;
-  color: #ffffff;
-  text-align: center;
-  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #4b4b4b;
+  margin: 0 0 8px;
 }
 
-.inputWrap {
+.subtext {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0 0 48px;
+}
+
+.stepperArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepperRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.stepBtn {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: #e8f4ff;
+  border: 2px solid #b3deff;
+  border-bottom: 4px solid #7bc8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1cb0f6;
+  cursor: pointer;
+  transition: transform 0.1s;
+  user-select: none;
+}
+
+.stepBtn:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.ageCard {
+  background: #fff;
+  border: 2px solid #e5e5e5;
+  border-bottom: 4px solid #e5e5e5;
+  border-radius: 20px;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.ageNumber {
+  font-size: 72px;
+  font-weight: 800;
+  color: #1cb0f6;
+  line-height: 1;
+}
+
+.yearsLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #afafaf;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.ctaWrap {
+  padding-top: 32px;
+}
+
+.ctaBtn {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding: 18px;
+  background: #58cc02;
+  border: none;
+  border-bottom: 4px solid #46a302;
+  border-radius: 999px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s;
 }
 
-.ageInput {
-  font-family: 'Nunito', sans-serif;
-  font-size: clamp(40px, 12vw, 64px);
-  font-weight: 900;
-  color: #4c1d95;
-  background: #ffffff;
-  border: 3px solid #e5e7eb;
-  border-radius: 24px;
-  width: clamp(140px, 40vw, 180px);
-  text-align: center;
-  padding: 16px 8px;
-  outline: none;
-  box-shadow: 0 5px 0 #e5e7eb;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  appearance: textfield;
-  -moz-appearance: textfield;
+.ctaBtn:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
 }
-
-.ageInput::-webkit-inner-spin-button,
-.ageInput::-webkit-outer-spin-button { appearance: none; }
-
-.ageInput:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 5px 0 #4c1d95;
-}
-
-.error {
-  font-size: 13px;
-  font-weight: 700;
-  color: #fca5a5;
-  text-align: center;
-}
-
-.ctaWrap { width: 100%; }
