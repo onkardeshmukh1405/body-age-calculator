@@ -20,9 +20,10 @@ const INDIA_DEFAULT: Country = {
 interface RegistrationScreenProps {
   bodyAge: number
   onSubmit: (name: string, phone: string, dialCode: string) => Promise<void>
+  onBack: () => void
 }
 
-export function RegistrationScreen({ onSubmit }: RegistrationScreenProps) {
+export function RegistrationScreen({ onSubmit, onBack }: RegistrationScreenProps) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [errors, setErrors] = useState<{ name?: string; phone?: string; api?: string }>({})
@@ -164,7 +165,13 @@ export function RegistrationScreen({ onSubmit }: RegistrationScreenProps) {
 
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-4 pb-1">
-        <span className="text-[13px] font-extrabold text-[#3aadaa]">#HarGharYoga</span>
+        <button
+          type="button"
+          onClick={onBack}
+          className="text-[13px] font-extrabold text-[#3aadaa] bg-transparent border-none cursor-pointer p-0"
+        >
+          {REG_STRINGS.back}
+        </button>
         <img src={WELCOME_ASSETS.logo} alt="Habuild" className="h-8 w-auto object-contain" />
       </div>
 

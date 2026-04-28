@@ -37,6 +37,8 @@ export type QuizAction =
   | { type: 'PREV_QUESTION' }
   | { type: 'REVEAL_COMPLETE'; bodyAge: number }
   | { type: 'GO_TO_REGISTRATION' }
+  | { type: 'BACK_TO_RESULT' }
+  | { type: 'BACK_TO_QUIZ' }
   | { type: 'SUBMIT_REGISTRATION'; name: string; phone: string; dialCode: string }
   | { type: 'ALREADY_REGISTERED'; name: string; phone: string; dialCode: string }
   | { type: 'RESET' }

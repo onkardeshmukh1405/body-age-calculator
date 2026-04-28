@@ -1,4 +1,5 @@
 export const REG_STRINGS = {
+  back: '← Back',
   badge: 'Starts Monday',
   programDays: '14-day online',
   programName: 'FREE YOGA',

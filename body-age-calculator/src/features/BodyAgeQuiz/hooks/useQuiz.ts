@@ -1,7 +1,9 @@
-import { useReducer, useCallback } from 'react'
+import { useReducer, useCallback, useEffect } from 'react'
 import type { QuizState, QuizAction } from '../types'
 import { calculateBodyAge } from '../utils/scoring'
 import { QUESTIONS } from '../constants/questions'
+
+const STORAGE_KEY = 'body-age-quiz-state'
 
 const initialState: QuizState = {
   screen: 'welcome',
@@ -14,6 +16,16 @@ const initialState: QuizState = {
   phone: '',
   dialCode: '',
   isLoggedIn: false,
+}
+
+function loadState(): QuizState {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return initialState
+    return { ...initialState, ...JSON.parse(raw) }
+  } catch {
+    return initialState
+  }
 }
 
 function reducer(state: QuizState, action: QuizAction): QuizState {
@@ -65,6 +77,18 @@ function reducer(state: QuizState, action: QuizAction): QuizState {
     case 'GO_TO_REGISTRATION':
       return { ...state, screen: 'registration' }
 
+    case 'BACK_TO_RESULT':
+      return { ...state, screen: 'result' }
+
+    case 'BACK_TO_QUIZ': {
+      const lastIndex = 8
+      const lastScore = state.answers[lastIndex]
+      const lastSelected = lastScore !== undefined
+        ? (QUESTIONS[lastIndex]?.options.findIndex(o => o.score === lastScore) ?? null)
+        : null
+      return { ...state, screen: 'quiz', currentQuestion: lastIndex, selectedOption: lastSelected !== null && lastSelected >= 0 ? lastSelected : null }
+    }
+
     case 'SUBMIT_REGISTRATION':
       return { ...state, name: action.name, phone: action.phone, dialCode: action.dialCode, isLoggedIn: true, screen: 'age_input', currentQuestion: 0, answers: [], selectedOption: null }
 
@@ -80,7 +104,13 @@ function reducer(state: QuizState, action: QuizAction): QuizState {
 }
 
 export function useQuiz() {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, undefined, loadState)
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    } catch {}
+  }, [state])
 
   const start = useCallback(() => dispatch({ type: 'START' }), [])
   const setAge = useCallback((age: number) => dispatch({ type: 'SET_AGE', age }), [])
@@ -91,11 +121,18 @@ export function useQuiz() {
   const revealComplete = useCallback((bodyAge: number) =>
     dispatch({ type: 'REVEAL_COMPLETE', bodyAge }), [])
   const goToRegistration = useCallback(() => dispatch({ type: 'GO_TO_REGISTRATION' }), [])
-  const submitRegistration = useCallback((name: string, phone: string, dialCode: string) =>
-    dispatch({ type: 'SUBMIT_REGISTRATION', name, phone, dialCode }), [])
+  const backToResult = useCallback(() => dispatch({ type: 'BACK_TO_RESULT' }), [])
+  const backToQuiz = useCallback(() => dispatch({ type: 'BACK_TO_QUIZ' }), [])
+  const submitRegistration = useCallback((name: string, phone: string, dialCode: string) => {
+    localStorage.removeItem(STORAGE_KEY)
+    dispatch({ type: 'SUBMIT_REGISTRATION', name, phone, dialCode })
+  }, [])
   const alreadyRegistered = useCallback((name: string, phone: string, dialCode: string) =>
     dispatch({ type: 'ALREADY_REGISTERED', name, phone, dialCode }), [])
-  const reset = useCallback(() => dispatch({ type: 'RESET' }), [])
+  const reset = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEY)
+    dispatch({ type: 'RESET' })
+  }, [])
 
-  return { state, start, setAge, selectOption, nextQuestion, prevQuestion, revealComplete, goToRegistration, submitRegistration, alreadyRegistered, reset }
+  return { state, start, setAge, selectOption, nextQuestion, prevQuestion, revealComplete, goToRegistration, backToResult, backToQuiz, submitRegistration, alreadyRegistered, reset }
 }

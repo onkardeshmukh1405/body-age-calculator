@@ -7,6 +7,8 @@ import type { QuizState } from '../../types'
 interface ResultScreenProps {
   state: QuizState
   onRegister: () => void
+  onBack: () => void
+  onRetry: () => void
 }
 
 const SHAKE_KEYFRAMES: Keyframe[] = [
@@ -28,7 +30,7 @@ function useShake(ref: React.RefObject<HTMLElement | null>) {
   }, [ref])
 }
 
-export function ResultScreen({ state, onRegister }: ResultScreenProps) {
+export function ResultScreen({ state, onRegister, onBack, onRetry }: ResultScreenProps) {
   const isGood = state.bodyAge <= state.age
   const { good, bad } = useMemo(() => getFactorAnalysis(state.answers), [state.answers])
   const feedbackMsg = getFeedbackMessage(state.bodyAge, state.age)
@@ -52,6 +54,15 @@ export function ResultScreen({ state, onRegister }: ResultScreenProps) {
       {showPoster && <SharePoster state={state} onClose={() => setShowPoster(false)} />}
       <div className="h-[100dvh] bg-[#fcf9f4] flex flex-col font-nunito">
         <div className="flex-1 overflow-y-auto px-5 pt-5 pb-2">
+          <div className="flex items-center mb-2">
+            <button
+              type="button"
+              onClick={onBack}
+              className="text-[13px] font-extrabold text-[#3aadaa] bg-transparent border-none cursor-pointer p-0 flex items-center gap-1"
+            >
+              &#8592; Back
+            </button>
+          </div>
           <div className="text-center mb-3">
             <p className="text-[20px] font-extrabold text-[#3aadaa] m-0 mb-0.5">{RESULT_STRINGS.good.header}</p>
             <p className="text-[11px] font-bold text-[#afafaf] uppercase tracking-[1.4px] m-0">{RESULT_STRINGS.good.subheader}</p>
@@ -96,6 +107,15 @@ export function ResultScreen({ state, onRegister }: ResultScreenProps) {
   return (
     <div className="h-[100dvh] bg-[#fcf9f4] flex flex-col font-nunito">
       <div className="flex-1 overflow-y-auto px-5 pt-5 pb-2">
+        <div className="flex items-center mb-2">
+          <button
+            type="button"
+            onClick={onRetry}
+            className="text-[13px] font-extrabold text-[#3aadaa] bg-transparent border-none cursor-pointer p-0 flex items-center gap-1"
+          >
+            &#8592; Back
+          </button>
+        </div>
         <p className="text-[11px] font-bold text-[#afafaf] uppercase tracking-[1.4px] text-center mb-2">{RESULT_STRINGS.concerning.header}</p>
         <div className="flex justify-center mb-2">
           <div className="w-[130px] h-[130px] rounded-full border-[7px] border-[#ff4b4b] flex flex-col items-center justify-center bg-white relative">
@@ -132,9 +152,10 @@ export function ResultScreen({ state, onRegister }: ResultScreenProps) {
           </div>
         </div>
       </div>
-      <div className="px-5 py-3 bg-[#fcf9f4]" style={{ borderTop: '1px solid #e5e5e5' }}>
+      <div className="px-5 py-3 bg-[#fcf9f4] flex flex-col gap-2" style={{ borderTop: '1px solid #e5e5e5' }}>
         <button ref={primaryConcerningRef} onClick={onRegister} className="flex items-center justify-center w-full py-4 rounded-full text-white font-nunito text-[15px] font-extrabold tracking-[0.5px] uppercase transition-transform active:translate-y-0.5 cursor-pointer border-none" style={CTA_STYLE}>{RESULT_STRINGS.concerning.primaryCta}</button>
-        <p className="text-center text-[12px] text-[#afafaf] mt-2 mb-0">{RESULT_STRINGS.concerning.footer}</p>
+        <button onClick={onRetry} className="flex items-center justify-center w-full py-3 rounded-full font-nunito text-[14px] font-extrabold transition-transform active:translate-y-0.5 cursor-pointer" style={{ background: 'transparent', border: '1.5px solid #3aadaa', color: '#3aadaa' }}>{RESULT_STRINGS.concerning.retryCta}</button>
+        <p className="text-center text-[12px] text-[#afafaf] mt-1 mb-0">{RESULT_STRINGS.concerning.footer}</p>
       </div>
     </div>
   )

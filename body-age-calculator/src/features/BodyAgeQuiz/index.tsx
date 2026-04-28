@@ -10,7 +10,7 @@ import { AlreadyRegisteredScreen } from './components/AlreadyRegisteredScreen'
 import { registerUser } from './api/registerUser'
 
 export function BodyAgeQuiz() {
-  const { state, start, setAge, selectOption, nextQuestion, prevQuestion, revealComplete, goToRegistration, submitRegistration, alreadyRegistered, reset } = useQuiz()
+  const { state, start, setAge, selectOption, nextQuestion, prevQuestion, revealComplete, goToRegistration, backToResult, backToQuiz, submitRegistration, alreadyRegistered, reset } = useQuiz()
   const [profileOpen, setProfileOpen] = useState(false)
 
   const handleSubmitRegistration = async (name: string, phone: string, dialCode: string): Promise<void> => {
@@ -105,10 +105,10 @@ export function BodyAgeQuiz() {
         />
       )}
       {state.screen === 'result' && (
-        <ResultScreen state={state} onRegister={goToRegistration} />
+        <ResultScreen state={state} onRegister={goToRegistration} onBack={backToQuiz} onRetry={reset} />
       )}
       {state.screen === 'registration' && (
-        <RegistrationScreen bodyAge={state.bodyAge} onSubmit={handleSubmitRegistration} />
+        <RegistrationScreen bodyAge={state.bodyAge} onSubmit={handleSubmitRegistration} onBack={backToResult} />
       )}
       {state.screen === 'already_registered' && (
         <AlreadyRegisteredScreen
