@@ -11,7 +11,7 @@ export const WELCOME_STRINGS = {
   socialProof: 'Trusted by',
   socialHighlight: '1.4 Crore+ Global Members',
   socialSuffix: '',
-  socialCount: '1.4M+',
+  socialCount: '10M+',
   bodyAgeExplainerTitle: 'What is Body Age?',
   bodyAgeExplainerBody: 'Body Age is how old your body functions internally — based on your sleep, diet, exercise & stress. It can be younger or older than your real age.',
   metrics: [
