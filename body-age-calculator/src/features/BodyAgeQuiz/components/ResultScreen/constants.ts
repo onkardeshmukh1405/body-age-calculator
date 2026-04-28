@@ -6,7 +6,7 @@ export const RESULT_STRINGS = {
     bodyAgeLabel: 'BODY AGE',
     realAgePrefix: 'Real Age: ',
     factorTitle: 'FACTOR ANALYSIS',
-    primaryCta: 'STAY HEALTHY \u2192',
+    primaryCta: 'CLAIM YOUR FREE GIFT \u2192',
     secondaryCta: 'SHARE REPORT',
   },
   concerning: {
@@ -15,7 +15,7 @@ export const RESULT_STRINGS = {
     realAgePrefix: 'Real Age: ',
     factorTitle: 'Factor Analysis',
     hopeTitle: 'There is Hope!',
-    hopeBody: 'Yoga can help reverse these factors. Feel younger in just 4 weeks.',
+    hopeBody: 'Yoga can help reverse these factors. Feel younger in just 14 Days.',
     primaryCta: 'START REVERSING IT \u2014 FREE \u2192',
     footer: 'Join 12,000+ others transforming their health today!',
   },

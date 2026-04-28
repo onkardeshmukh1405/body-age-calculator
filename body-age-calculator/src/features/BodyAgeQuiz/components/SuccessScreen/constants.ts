@@ -1,8 +1,5 @@
 export const SUCCESS_STRINGS = {
-  headingPrefix: "You're in, ",
-  headingSuffix: '!',
-  subtext: 'Your health journey just took its first exciting step forward.',
-  shareBtn: 'SHARE RESULT',
-  dashboardBtn: 'GO TO DASHBOARD',
-  shareMsg: 'I just discovered my body age with Habuild! Check yours for free at habuild.in',
+  heading: 'You\'re In!',
+  subtext: 'Your spot in the 14-day FREE Yoga Challenge is confirmed. Get ready to start your journey!',
+  cta: 'Go to My Dashboard',
 } as const

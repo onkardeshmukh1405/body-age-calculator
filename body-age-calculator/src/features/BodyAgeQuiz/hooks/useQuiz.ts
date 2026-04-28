@@ -1,6 +1,7 @@
 import { useReducer, useCallback } from 'react'
 import type { QuizState, QuizAction } from '../types'
 import { calculateBodyAge } from '../utils/scoring'
+import { QUESTIONS } from '../constants/questions'
 
 const initialState: QuizState = {
   screen: 'welcome',
@@ -11,6 +12,8 @@ const initialState: QuizState = {
   bodyAge: 0,
   name: '',
   phone: '',
+  dialCode: '',
+  isLoggedIn: false,
 }
 
 function reducer(state: QuizState, action: QuizAction): QuizState {
@@ -34,6 +37,18 @@ function reducer(state: QuizState, action: QuizAction): QuizState {
       return { ...state, selectedOption: action.optionIndex, answers: newAnswers }
     }
 
+    case 'PREV_QUESTION': {
+      if (state.currentQuestion === 0) {
+        return { ...state, screen: 'age_input', selectedOption: null }
+      }
+      const prevIndex = state.currentQuestion - 1
+      const prevAnswerScore = state.answers[prevIndex]
+      const prevSelectedOption = prevAnswerScore !== undefined
+        ? QUESTIONS[prevIndex]?.options.findIndex(o => o.score === prevAnswerScore) ?? null
+        : null
+      return { ...state, currentQuestion: prevIndex, selectedOption: prevSelectedOption >= 0 ? prevSelectedOption : null }
+    }
+
     case 'NEXT_QUESTION': {
       if (state.selectedOption === null) return state
       const isLast = state.currentQuestion === 8
@@ -51,7 +66,10 @@ function reducer(state: QuizState, action: QuizAction): QuizState {
       return { ...state, screen: 'registration' }
 
     case 'SUBMIT_REGISTRATION':
-      return { ...state, name: action.name, phone: action.phone, screen: 'success' }
+      return { ...state, name: action.name, phone: action.phone, dialCode: action.dialCode, isLoggedIn: true, screen: 'age_input', currentQuestion: 0, answers: [], selectedOption: null }
+
+    case 'ALREADY_REGISTERED':
+      return { ...state, name: action.name, phone: action.phone, dialCode: action.dialCode, isLoggedIn: true, screen: 'already_registered' }
 
     case 'RESET':
       return initialState
@@ -69,12 +87,15 @@ export function useQuiz() {
   const selectOption = useCallback((optionIndex: number, score: number) =>
     dispatch({ type: 'SELECT_OPTION', optionIndex, score }), [])
   const nextQuestion = useCallback(() => dispatch({ type: 'NEXT_QUESTION' }), [])
+  const prevQuestion = useCallback(() => dispatch({ type: 'PREV_QUESTION' }), [])
   const revealComplete = useCallback((bodyAge: number) =>
     dispatch({ type: 'REVEAL_COMPLETE', bodyAge }), [])
   const goToRegistration = useCallback(() => dispatch({ type: 'GO_TO_REGISTRATION' }), [])
-  const submitRegistration = useCallback((name: string, phone: string) =>
-    dispatch({ type: 'SUBMIT_REGISTRATION', name, phone }), [])
+  const submitRegistration = useCallback((name: string, phone: string, dialCode: string) =>
+    dispatch({ type: 'SUBMIT_REGISTRATION', name, phone, dialCode }), [])
+  const alreadyRegistered = useCallback((name: string, phone: string, dialCode: string) =>
+    dispatch({ type: 'ALREADY_REGISTERED', name, phone, dialCode }), [])
   const reset = useCallback(() => dispatch({ type: 'RESET' }), [])
 
-  return { state, start, setAge, selectOption, nextQuestion, revealComplete, goToRegistration, submitRegistration, reset }
+  return { state, start, setAge, selectOption, nextQuestion, prevQuestion, revealComplete, goToRegistration, submitRegistration, alreadyRegistered, reset }
 }

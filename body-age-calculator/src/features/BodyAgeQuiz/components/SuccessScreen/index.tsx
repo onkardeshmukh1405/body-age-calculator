@@ -1,45 +1,48 @@
 import { SUCCESS_STRINGS } from './constants'
+import { WELCOME_ASSETS } from '../WelcomeScreen/constants'
 
 interface SuccessScreenProps {
   name: string
-  onReset: () => void
+  phone: string
+  dialCode: string
 }
 
-export function SuccessScreen({ name, onReset }: SuccessScreenProps) {
-  const handleShare = () => {
-    const url = `https://wa.me/?text=${encodeURIComponent(SUCCESS_STRINGS.shareMsg)}`
-    window.open(url, '_blank')
-  }
+export function SuccessScreen({ name, phone, dialCode }: SuccessScreenProps) {
+  const dashboardUrl = `https://habit.yoga/?ref=website&ph=${phone}&country=${dialCode}&name=${encodeURIComponent(name)}`
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 font-nunito gap-5">
-      <div className="relative w-40 h-40 mb-2">
-        <div className="w-40 h-40 bg-[#f5f5f5] rounded-full flex items-center justify-center">
-          <span className="text-[96px] leading-none">🎉</span>
-        </div>
-        <span className="absolute top-1 right-1 text-[32px] leading-none">✅</span>
+    <div
+      className="min-h-[100dvh] flex flex-col items-center justify-center font-nunito px-6 text-center"
+      style={{ background: 'linear-gradient(160deg, #e8f6f8 0%, #d0eef5 50%, #e4f3ef 100%)' }}
+    >
+      <img src={WELCOME_ASSETS.logo} alt="Habuild" className="h-10 w-auto object-contain mb-10" />
+
+      {/* Check circle */}
+      <div
+        className="w-24 h-24 rounded-full flex items-center justify-center mb-6"
+        style={{ background: 'linear-gradient(135deg, #1a3558, #3aadaa)' }}
+      >
+        <svg className="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
       </div>
-      <h1 className="text-[32px] font-extrabold text-[#5300b7] text-center m-0">
-        {SUCCESS_STRINGS.headingPrefix}{name}{SUCCESS_STRINGS.headingSuffix}
+
+      <h1 className="text-[32px] font-extrabold text-[#1a3558] m-0 mb-2 leading-tight">
+        {SUCCESS_STRINGS.heading}
       </h1>
-      <p className="text-[18px] text-[#6b7280] text-center max-w-[320px] leading-[1.5] m-0">{SUCCESS_STRINGS.subtext}</p>
-      <div className="w-full max-w-[400px] flex flex-col gap-3">
-        <button
-          className="w-full py-4 px-6 rounded-full text-white font-nunito text-[16px] font-bold tracking-[0.5px] cursor-pointer transition-transform active:translate-y-0.5"
-          style={{ background: '#58cc02', border: 'none', borderBottom: '4px solid #46a302' }}
-          onClick={handleShare}
-        >
-          📤 {SUCCESS_STRINGS.shareBtn}
-        </button>
-        <button
-          className="w-full py-4 px-6 rounded-full text-white font-nunito text-[16px] font-bold tracking-[0.5px] cursor-pointer transition-transform active:translate-y-0.5"
-          style={{ background: '#5300b7', border: 'none', borderBottom: '4px solid #3d0090' }}
-          onClick={onReset}
-        >
-          ⊞ {SUCCESS_STRINGS.dashboardBtn}
-        </button>
-      </div>
-      <div className="text-[32px] tracking-[8px] text-center mt-2">🏆 ⭐ 🥇</div>
+      <p className="text-[17px] font-bold text-[#3aadaa] m-0 mb-4">{name}</p>
+
+      <p className="text-[15px] text-[#4b6080] leading-[1.6] m-0 mb-10 max-w-[300px]">
+        {SUCCESS_STRINGS.subtext}
+      </p>
+
+      <a
+        href={dashboardUrl}
+        className="flex items-center justify-center w-full max-w-[340px] py-[18px] rounded-full text-white font-nunito text-[16px] font-extrabold tracking-[0.5px] uppercase no-underline active:translate-y-0.5 transition-transform"
+        style={{ background: 'linear-gradient(90deg, #1a3558 0%, #3aadaa 100%)', borderBottom: '4px solid #0f2035' }}
+      >
+        {SUCCESS_STRINGS.cta}
+      </a>
     </div>
   )
 }

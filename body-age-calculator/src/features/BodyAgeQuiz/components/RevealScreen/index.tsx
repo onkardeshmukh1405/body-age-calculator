@@ -35,7 +35,7 @@ export function RevealScreen({ bodyAge: _bodyAge, onComplete }: RevealScreenProp
         <p className="text-[14px] font-semibold text-[#6b7280] text-center uppercase tracking-[2.8px] m-0">{REVEAL_STRINGS.subtext}</p>
         <div className="mt-8 w-[280px] flex flex-col items-center gap-3">
           <div className="w-full h-[6px] bg-[#e5e7eb] rounded-full overflow-hidden">
-            <div className="h-full bg-[#582c8b] rounded-full transition-[width] duration-100 ease-linear" style={{ width: `${progress}%` }} />
+            <div className="h-full bg-[#3aadaa] rounded-full transition-[width] duration-100 ease-linear" style={{ width: `${progress}%` }} />
           </div>
           <span className="text-[12px] font-bold text-[rgba(88,44,139,0.6)] uppercase tracking-[1.2px] text-center">{REVEAL_STRINGS.processing}</span>
         </div>

@@ -55,10 +55,10 @@ const FACTOR_META = [
 ] as const
 
 function scoreToBadge(score: number): string {
-  if (score === -2) return 'OPTIMAL'
-  if (score === -1) return 'GOOD'
-  if (score === 2)  return '+3 YRS'
-  return '+4 YRS'
+  if (score === -2) return '✓ Great'
+  if (score === -1) return '✓ Good'
+  if (score === 2)  return '⚠ Needs work'
+  return '⚠ Needs attention'
 }
 
 export function getFactorAnalysis(answers: number[]): { good: Factor[]; bad: Factor[] } {

@@ -1,4 +1,5 @@
 import { WELCOME_STRINGS, WELCOME_ASSETS } from './constants'
+import { useEffect, useRef } from 'react'
 
 interface WelcomeScreenProps {
   onStart: () => void
@@ -7,75 +8,95 @@ interface WelcomeScreenProps {
 const METRIC_ICONS = [WELCOME_ASSETS.metabIcon, WELCOME_ASSETS.bioIcon, WELCOME_ASSETS.flexIcon]
 
 export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
+  const btnRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    const el = btnRef.current
+    if (!el) return
+    const anim = el.animate(
+      [
+        { transform: 'translateX(0px)',  offset: 0 },
+        { transform: 'translateX(-5px)', offset: 0.05 },
+        { transform: 'translateX(5px)',  offset: 0.12 },
+        { transform: 'translateX(-5px)', offset: 0.19 },
+        { transform: 'translateX(5px)',  offset: 0.24 },
+        { transform: 'translateX(0px)',  offset: 0.29 },
+        { transform: 'translateX(0px)',  offset: 1 },
+      ],
+      { duration: 2100, iterations: Infinity, easing: 'linear' }
+    )
+    return () => anim.cancel()
+  }, [])
+
   return (
-    <div className="min-h-[100dvh] bg-[#fcf9f4] relative overflow-hidden font-nunito">
-      <div className="absolute inset-0 opacity-10 pointer-events-none" aria-hidden>
-        <img className="absolute top-20 left-[30px] w-[120px] h-[120px] -rotate-12" src={WELCOME_ASSETS.bioIcon} alt="" />
-        <div className="absolute bottom-[60px] right-5 text-[96px] leading-none text-[#ff4b4b]">&#x1F9D8;</div>
-      </div>
-      <div className="relative max-w-[430px] mx-auto px-6 pt-12 pb-10 flex flex-col items-center">
-        <div className="relative w-24 h-24 mb-2">
-          <div className="w-24 h-24 bg-[rgba(83,0,183,0.1)] rounded-[24px] flex items-center justify-center">
-            <img className="w-10 h-8" src={WELCOME_ASSETS.heartbeat} alt="" />
-          </div>
-          <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#58cc02] border-4 border-white rounded-full flex items-center justify-center">
-            <img className="w-[10px] h-2" src={WELCOME_ASSETS.checkmark} alt="" />
-          </div>
-        </div>
+    <div className="min-h-[100dvh] bg-[#fcf9f4] font-nunito">
+      <div className="max-w-[430px] mx-auto px-5 pt-6 pb-5 flex flex-col">
 
-        <p className="text-[14px] text-[#5300b7] uppercase tracking-[0.7px] font-bold mb-6">{WELCOME_STRINGS.brand}</p>
+        <img src={WELCOME_ASSETS.logo} alt="Habuild" className="h-8 w-auto object-contain self-center mb-5" />
 
-        <h1 className="text-[36px] font-extrabold text-[#4b4b4b] text-center leading-[1.25] mb-6">
+        <h1 className="text-[24px] font-extrabold text-[#1a3558] text-center leading-[1.3] m-0 mb-3">
           {WELCOME_STRINGS.headlinePart1}
-          <span className="text-[#5300b7]">{WELCOME_STRINGS.headlinePurple}</span>
+          <span className="text-[#3aadaa]">{WELCOME_STRINGS.headlinePurple}</span>
           <br />
           {WELCOME_STRINGS.headlinePart2}
           <br />
           <span className="text-[#ff4b4b]">{WELCOME_STRINGS.headlineRed}</span>
         </h1>
 
-        <p className="text-[20px] text-[#6b7280] text-center leading-[1.4] mb-8">
-          {WELCOME_STRINGS.sub1}
-          <span className="text-[#9ca3af] block">{WELCOME_STRINGS.sub2}</span>
+        <p className="text-[13px] text-[#6b7280] text-center leading-[1.5] m-0 mb-4">
+          {WELCOME_STRINGS.sub1}{' '}
+          <span className="inline-flex items-center gap-1 bg-[#fff3cd] text-[#b45309] font-extrabold px-2 py-0.5 mt-2 rounded-full text-[12px]">
+            ⏱ {WELCOME_STRINGS.sub2}
+          </span>
         </p>
 
         <button
-          className="flex items-center justify-center gap-2 w-full py-[18px] px-4 rounded-full text-white font-nunito text-[14px] font-extrabold tracking-[0.3px] cursor-pointer shadow-[0_8px_20px_rgba(0,0,0,0.12)] mb-5 active:translate-y-0.5 whitespace-nowrap"
-          style={{ background: '#ff845e', border: 'none', borderBottom: '4px solid #e56a47' }}
+          ref={btnRef}
+          className="flex items-center justify-center gap-2 w-full py-4 px-4 rounded-full text-white font-nunito text-[14px] font-extrabold tracking-[0.3px] cursor-pointer mb-2 active:translate-y-0.5 whitespace-nowrap"
+          style={{ background: 'linear-gradient(90deg, #1a3558 0%, #3aadaa 100%)', border: 'none', borderBottom: '4px solid #0f2035', boxShadow: '0 8px 20px rgba(26,53,88,0.2)' }}
           onClick={onStart}
         >
           {WELCOME_STRINGS.cta}
-          <img className="w-4 h-4" src={WELCOME_ASSETS.arrow} alt="" />
         </button>
 
-        <div className="w-full bg-white/80 backdrop-blur-sm border-2 border-[#e5e5e5] border-b-4 rounded-2xl p-[18px] flex flex-col items-center gap-3 mb-5">
-          <div className="flex items-center pr-3">
-            <img className="w-12 h-12 rounded-full border-4 border-white object-cover -mr-3" src={WELCOME_ASSETS.avatar1} alt="" />
-            <img className="w-12 h-12 rounded-full border-4 border-white object-cover -mr-3" src={WELCOME_ASSETS.avatar2} alt="" />
-            <img className="w-12 h-12 rounded-full border-4 border-white object-cover -mr-3" src={WELCOME_ASSETS.avatar3} alt="" />
-            <div className="w-12 h-12 rounded-full border-4 border-white bg-[#58cc02] flex items-center justify-center text-[10px] font-extrabold text-white -mr-3">{WELCOME_STRINGS.socialCount}</div>
+        {/* Social proof */}
+        <div className="bg-white/80 rounded-2xl px-3 py-2.5 flex items-center gap-3 mb-4" style={{ border: '1.5px solid #e5e5e5' }}>
+          <div className="flex items-center flex-shrink-0">
+            <img src={WELCOME_ASSETS.avatarStrip} alt="Habuild users" className="h-9 w-auto object-contain" />
+            <div className="w-8 h-8 rounded-full border-2 border-white bg-[#3aadaa] flex items-center justify-center text-[8px] font-extrabold text-white -ml-2 flex-shrink-0">{WELCOME_STRINGS.socialCount}</div>
           </div>
-          <p className="text-[16px] text-[#4b4b4b] text-center m-0">
-            Join <span className="text-[#58cc02] font-bold">20,00,000+ Indians</span> on Habuild
+          <p className="text-[12px] text-[#4b4b4b] m-0 leading-snug">
+            {WELCOME_STRINGS.socialProof} <span className="text-[#3aadaa] font-bold">{WELCOME_STRINGS.socialHighlight}</span> {WELCOME_STRINGS.socialSuffix}
           </p>
         </div>
 
-        <div className="w-full flex flex-col gap-3">
+        <div className="w-full bg-[#edf8f8] rounded-2xl px-4 py-3 mb-4 flex gap-2 items-start" style={{ border: '1.5px solid #3aadaa' }}>
+          <span className="text-[18px] flex-shrink-0">🧬</span>
+          <div>
+            <p className="text-[13px] font-extrabold text-[#1a3558] m-0 mb-0.5">{WELCOME_STRINGS.bodyAgeExplainerTitle}</p>
+            <p className="text-[12px] text-[#4b6080] leading-[1.6] m-0">{WELCOME_STRINGS.bodyAgeExplainerBody}</p>
+          </div>
+        </div>
+
+        {/* Metric cards */}
+        <div className="flex flex-col gap-2">
           {WELCOME_STRINGS.metrics.map((m, i) => (
             <div
-              className={`bg-white border-2 border-b-4 rounded-2xl px-6 py-5 flex items-center gap-5 ${i === 1 ? 'border-[rgba(83,0,183,0.2)]' : 'border-[#e5e5e5]'}`}
+              className="bg-white rounded-xl px-4 py-3 flex items-center gap-3"
+              style={{ border: '1.5px solid #e5e5e5' }}
               key={m.label}
             >
-              <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: m.iconBg }}>
-                <img className="w-[26px] h-[26px] object-contain" src={METRIC_ICONS[i]} alt="" />
+              <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: m.iconBg }}>
+                <img className="w-5 h-5 object-contain" src={METRIC_ICONS[i]} alt="" />
               </div>
               <div>
-                <div className="text-[18px] font-bold text-[#4b4b4b]">{m.label}</div>
-                <div className="text-[14px] text-[#9ca3af] mt-0.5">{m.sublabel}</div>
+                <div className="text-[14px] font-bold text-[#1a3558]">{m.label}</div>
+                <div className="text-[12px] text-[#9ca3af]">{m.sublabel}</div>
               </div>
             </div>
           ))}
         </div>
+
       </div>
     </div>
   )
