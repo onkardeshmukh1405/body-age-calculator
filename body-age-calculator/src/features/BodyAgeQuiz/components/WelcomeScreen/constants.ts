@@ -9,9 +9,9 @@ export const WELCOME_STRINGS = {
   cta: 'CHECK MY BODY AGE \u2014 FREE',
   quizCta: 'Take the Quiz First →',
   socialProof: 'Trusted by',
-  socialHighlight: '2.5k+ Global Members',
+  socialHighlight: '1.4 Crore+ Global Members',
   socialSuffix: '',
-  socialCount: '2.5k+',
+  socialCount: '1.4M+',
   bodyAgeExplainerTitle: 'What is Body Age?',
   bodyAgeExplainerBody: 'Body Age is how old your body functions internally — based on your sleep, diet, exercise & stress. It can be younger or older than your real age.',
   metrics: [
