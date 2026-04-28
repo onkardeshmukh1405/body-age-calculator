@@ -9,7 +9,7 @@ interface AlreadyRegisteredScreenProps {
 }
 
 export function AlreadyRegisteredScreen({ name, phone, dialCode, onRetryQuiz }: AlreadyRegisteredScreenProps) {
-  const dashboardUrl = `https://habit.yoga/?ref=website&ph=${phone}&country=${dialCode}&name=${encodeURIComponent(name)}`
+  const dashboardUrl = `https://habit.yoga/?ref=body-age-calculator&ph=${phone}&country=${dialCode}&name=${encodeURIComponent(name)}`
 
   return (
     <div

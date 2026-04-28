@@ -44,7 +44,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         </h1>
 
         <p className="text-[13px] text-[#6b7280] text-center leading-[1.5] m-0 mb-4">
-          {WELCOME_STRINGS.sub1}{' '}
+          {WELCOME_STRINGS.sub1}{' '} <br />
           <span className="inline-flex items-center gap-1 bg-[#fff3cd] text-[#b45309] font-extrabold px-2 py-0.5 mt-2 rounded-full text-[12px]">
             ⏱ {WELCOME_STRINGS.sub2}
           </span>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { parsePhoneNumber } from 'libphonenumber-js/max'
 import { REG_STRINGS } from './constants'
 import { WELCOME_ASSETS } from '../WelcomeScreen/constants'
 
@@ -83,7 +84,12 @@ export function RegistrationScreen({ onSubmit }: RegistrationScreenProps) {
   const handleSubmit = async () => {
     const newErrors: { name?: string; phone?: string } = {}
     if (!name.trim()) newErrors.name = REG_STRINGS.errorName
-    if (!/^\d{6,15}$/.test(phone.replace(/\s/g, ''))) newErrors.phone = REG_STRINGS.errorPhone
+    try {
+      const parsed = parsePhoneNumber(phone, selected.code as any)
+      if (!parsed || !parsed.isValid()) newErrors.phone = REG_STRINGS.errorPhone
+    } catch {
+      newErrors.phone = REG_STRINGS.errorPhone
+    }
     if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return }
     setLoading(true)
     setErrors({})

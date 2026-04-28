@@ -25,7 +25,7 @@ export function BodyAgeQuiz() {
     })
     if (result.success) {
       submitRegistration(name, fullPhone, strippedDial)
-      window.location.href = `https://habit.yoga/?ref=website&ph=${fullPhone}&country=${strippedDial}&name=${encodeURIComponent(name)}`
+      window.location.href = `https://habit.yoga/?ref=body-age-calculator&ph=${fullPhone}&country=${strippedDial}&name=${encodeURIComponent(name)}`
     } else if (result.message?.toLowerCase().includes('already exists')) {
       alreadyRegistered(name, fullPhone, strippedDial)
     } else {

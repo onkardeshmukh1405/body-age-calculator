@@ -1,6 +1,7 @@
-import { useMemo, useRef, useEffect } from 'react'
+import { useMemo, useRef, useEffect, useState } from 'react'
 import { RESULT_STRINGS, getFeedbackMessage } from './constants'
 import { getFactorAnalysis } from '../../utils/scoring'
+import { SharePoster } from '../SharePoster'
 import type { QuizState } from '../../types'
 
 interface ResultScreenProps {
@@ -34,6 +35,7 @@ export function ResultScreen({ state, onRegister }: ResultScreenProps) {
 
   const primaryGoodRef = useRef<HTMLButtonElement>(null)
   const primaryConcerningRef = useRef<HTMLButtonElement>(null)
+  const [showPoster, setShowPoster] = useState(false)
 
   useShake(primaryGoodRef)
   useShake(primaryConcerningRef)
@@ -46,6 +48,8 @@ export function ResultScreen({ state, onRegister }: ResultScreenProps) {
 
   if (isGood) {
     return (
+      <>
+      {showPoster && <SharePoster state={state} onClose={() => setShowPoster(false)} />}
       <div className="h-[100dvh] bg-[#fcf9f4] flex flex-col font-nunito">
         <div className="flex-1 overflow-y-auto px-5 pt-5 pb-2">
           <div className="text-center mb-3">
@@ -82,9 +86,10 @@ export function ResultScreen({ state, onRegister }: ResultScreenProps) {
         </div>
         <div className="px-5 py-3 bg-[#fcf9f4] flex flex-col gap-2" style={{ borderTop: '1px solid #e5e5e5' }}>
           <button ref={primaryGoodRef} onClick={onRegister} className="flex items-center justify-center w-full py-4 rounded-full text-white font-nunito text-[15px] font-extrabold tracking-[0.5px] transition-transform active:translate-y-0.5 cursor-pointer border-none" style={CTA_STYLE}>{RESULT_STRINGS.good.primaryCta}</button>
-          <button onClick={onRegister} className="flex items-center justify-center w-full py-3 rounded-full font-nunito text-[14px] font-extrabold transition-transform active:translate-y-0.5 cursor-pointer" style={{ background: 'transparent', border: '1.5px solid #3aadaa', color: '#3aadaa' }}>{RESULT_STRINGS.good.secondaryCta}</button>
+          <button onClick={() => setShowPoster(true)} className="flex items-center justify-center w-full py-3 rounded-full font-nunito text-[14px] font-extrabold transition-transform active:translate-y-0.5 cursor-pointer" style={{ background: 'transparent', border: '1.5px solid #3aadaa', color: '#3aadaa' }}>{RESULT_STRINGS.good.secondaryCta}</button>
         </div>
       </div>
+      </>
     )
   }
 

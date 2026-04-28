@@ -8,7 +8,7 @@ interface SuccessScreenProps {
 }
 
 export function SuccessScreen({ name, phone, dialCode }: SuccessScreenProps) {
-  const dashboardUrl = `https://habit.yoga/?ref=website&ph=${phone}&country=${dialCode}&name=${encodeURIComponent(name)}`
+  const dashboardUrl = `https://habit.yoga/?ref=body-age-calculator&ph=${phone}&country=${dialCode}&name=${encodeURIComponent(name)}`
 
   return (
     <div
