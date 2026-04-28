@@ -46,7 +46,7 @@ function reducer(state: QuizState, action: QuizAction): QuizState {
       const prevSelectedOption = prevAnswerScore !== undefined
         ? QUESTIONS[prevIndex]?.options.findIndex(o => o.score === prevAnswerScore) ?? null
         : null
-      return { ...state, currentQuestion: prevIndex, selectedOption: prevSelectedOption >= 0 ? prevSelectedOption : null }
+      return { ...state, currentQuestion: prevIndex, selectedOption: prevSelectedOption !== null && prevSelectedOption >= 0 ? prevSelectedOption : null }
     }
 
     case 'NEXT_QUESTION': {

@@ -96,7 +96,6 @@ export function BodyAgeQuiz() {
           onSelectOption={selectOption}
           onNext={nextQuestion}
           onBack={prevQuestion}
-          onClose={reset}
         />
       )}
       {state.screen === 'reveal' && (
