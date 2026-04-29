@@ -1,8 +1,10 @@
 import { QUESTIONS } from '../constants/questions'
 
+const BASE_PENALTY = 5
+
 export function calculateBodyAge(age: number, answers: number[]): number {
   const total = answers.reduce((sum, score) => sum + score, 0)
-  const raw = age + total
+  const raw = age + total + BASE_PENALTY
   const min = Math.max(18, age - 15)
   const max = age + 15
   return Math.min(max, Math.max(min, raw))
@@ -40,6 +42,8 @@ export interface Factor {
   sublabel: string
   badge: string
   isPositive: boolean
+  score: number
+  index: number
 }
 
 const FACTOR_META = [
@@ -74,6 +78,8 @@ export function getFactorAnalysis(answers: number[]): { good: Factor[]; bad: Fac
       sublabel: FACTOR_META[i].goodSub,
       badge: scoreToBadge(score),
       isPositive: true,
+      score,
+      index: i,
     }))
 
   const badFactors = indexed
@@ -86,6 +92,8 @@ export function getFactorAnalysis(answers: number[]): { good: Factor[]; bad: Fac
       sublabel: FACTOR_META[i].badSub,
       badge: scoreToBadge(score),
       isPositive: false,
+      score,
+      index: i,
     }))
 
   return { good: goodFactors, bad: badFactors }

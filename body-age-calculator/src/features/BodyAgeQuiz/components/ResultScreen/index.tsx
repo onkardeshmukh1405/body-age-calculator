@@ -110,7 +110,7 @@ export function ResultScreen({ state, onRegister, onBack, onRetry }: ResultScree
         <div className="flex items-center mb-2">
           <button
             type="button"
-            onClick={onRetry}
+            onClick={onBack}
             className="text-[13px] font-extrabold text-[#3aadaa] bg-transparent border-none cursor-pointer p-0 flex items-center gap-1"
           >
             &#8592; Back

@@ -18,7 +18,7 @@ export const RESULT_STRINGS = {
     hopeBody: 'Yoga can help reverse these factors. Feel younger in just 14 Days.',
     primaryCta: 'START REVERSING IT \u2014 FREE \u2192',
     retryCta: 'Retry Quiz',
-    footer: 'Join 2,400+ others transforming their health today!',
+    footer: 'Join 12,400+ others transforming their health today!',
   },
 } as const
 
